@@ -37,13 +37,15 @@ from flask_login import LoginManager, login_user, UserMixin, current_user
 # All configuration directives can be found in the documentation.
 app.config['LDAP_HOST'] = 'ad.unsw.edu.au'             # Hostname of your LDAP Server
 app.config['LDAP_BASE_DN'] = 'OU=IDM,DC=ad,DC=unsw,DC=edu,DC=au'       # Base DN of your directory
-# app.config['LDAP_USER_DN'] = 'ou=users'                 # Users DN to be prepended to the Base DN
+app.config['LDAP_USER_DN'] = 'OU=IDM_People'                 # Users DN to be prepended to the Base DN
 # app.config['LDAP_GROUP_DN'] = 'ou=groups'               # Groups DN to be prepended to the Base DN
 app.config['LDAP_BIND_DIRECT_CREDENTIALS'] = True
-# app.config['LDAP_USER_RDN_ATTR'] = 'cn'                 # The RDN attribute for your user schema on LDAP
-# app.config['LDAP_USER_LOGIN_ATTR'] = 'cn'             # The Attribute you want users to authenticate to LDAP with.
-# app.config['LDAP_BIND_USER_DN'] = None                  # The Username to bind to LDAP with
-# app.config['LDAP_BIND_USER_PASSWORD'] = None            # The Password to bind to LDAP with
+app.config['LDAP_BIND_DIRECT_SUFFIX'] = "@ad.unsw.edu.au"
+app.config['LDAP_BIND_DIRECT_GET_USER_INFO'] = True
+app.config['LDAP_USER_SEARCH_SCOPE'] = "SEARCH_SCOPE_WHOLE_SUBTREE"
+app.config['LDAP_USER_LOGIN_ATTR'] = 'cn'
+app.config['LDAP_GET_USER_ATTRIBUTES'] = ['dn', 'cn', 'memberOf', 'givenName', 'sn']
+
 
 login_manager = LoginManager(app)              # Setup a Flask-Login Manager
 ldap_manager = LDAP3LoginManager(app)          # Setup a LDAP3 Login Manager.
@@ -51,37 +53,15 @@ ldap_manager = LDAP3LoginManager(app)          # Setup a LDAP3 Login Manager.
 from flask import render_template_string, redirect
 
 
-# Create a dictionary to store the users in when they authenticate
-# This example stores users in memory. 
-users = {}
-
-
-# Declare an Object Model for the user, and make it comply with the 
-# flask-login UserMixin mixin.
-class User(UserMixin):
-    def __init__(self, dn, username, data):
-        self.dn = dn
-        self.username = username
-        self.data = data
-
-    def __repr__(self):
-        return self.dn
-
-    def get_id(self):
-        return self.dn
-
-    def is_anonymous(self):
-        return False
-
-
 # Declare a User Loader for Flask-Login.
 # Simply returns the User if it exists in our 'database', otherwise 
 # returns None.
+
+from .models.User import User
 @login_manager.user_loader
 def load_user(id):
-    if id in users:
-        return users[id]
-    return None
+    user = User.query.filter_by(User.zid == id).first()
+    return user
 
 
 # Declare The User Saver for Flask-Ldap3-Login
