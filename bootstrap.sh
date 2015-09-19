@@ -20,6 +20,7 @@ pip install virtualenv
 apt-get install --yes nodejs npm
 ln -s /usr/bin/nodejs /usr/bin/node
 npm install -g grunt-cli # Get grunt too
+npm install -g bower
 
 # Make a VirtualEnv for the project.
 cd $PROJECT_ROOT;
