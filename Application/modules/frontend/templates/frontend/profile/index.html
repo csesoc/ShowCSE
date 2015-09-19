@@ -1,6 +1,7 @@
 {% extends "frontend/profile/base.html" %}
 {% block content %}
 	
+	<!-- Name and program -->
 	<div class="row">
 		<div class="col-xs-12">
 			<div class="panel panel-default panel-body">
@@ -10,10 +11,11 @@
 		</div>
 	</div>
 	
+	<!-- About themselves -->
 	<div class="row">
 		<div class="col-xs-12 col-sm-8">
-			<div class="panel">
-				<div class="panel panel-default panel-body">
+			<div class="panel panel-default">
+				<div class="panel-body">
 					<h3>About</h3>
 					{{lipsum(1)}}
 					<hr />
@@ -23,6 +25,7 @@
 			</div>
 		</div>
 		
+		<!-- Starred projects -->
 		<div class="col-xs-12 col-sm-4">
 			<div class="panel panel-default panel-body">
 				<h3>Starred Projects</h3>
@@ -35,11 +38,17 @@
 		</div>
 	</div> <!-- row -->
 	
+	<!-- Projects section -->
 	<div class="row">
 		<div class="col-xs-12">
 			<div class="panel panel-default panel-body">
-				<h3>Project name</h3>
-				{{lipsum(3)}}
+				<div class="col-xs-12 col-sm-4">
+					<img src="http://baconmockup.com/300/300/" />
+				</div>
+				<div class="col-xs-12 col-sm-8">	
+					<h3>Project name</h3>
+					{{lipsum(3)}}
+				</div>
 			</div>
 		</div>
 	</div>
@@ -47,10 +56,48 @@
 	<div class="row">
 		<div class="col-xs-12">
 			<div class="panel panel-default panel-body">
-				<h3>Project name</h3>
-				{{lipsum(3)}}
+				<div class="col-xs-12 col-sm-4">
+					<img src="http://baconmockup.com/300/300/" />
+				</div>
+				<div class="col-xs-12 col-sm-8">	
+					<h3>Project name</h3>
+					{{lipsum(3)}}
+				</div>
 			</div>
 		</div>
 	</div>
+
+	<!-- Followers, following -->
+	<div class="row">
+		
+		<!-- Followers -->
+		<div class="col-xs-12 col-sm-6">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">Followers</h3>
+				</div>
+				<ul class="list-group">
+					<li class="list-group-item"><a>Jake Bloom</a></li>
+					<li class="list-group-item"><a>Nick Whyte</a></li>
+					<li class="list-group-item"><a>Steven Strijakov</a></li>					
+				</ul>
+			</div>
+		</div>
+	
+		<!-- Following -->
+		<div class="col-xs-12 col-sm-6">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">Following</h3>
+				</div>
+				<ul class="list-group">
+					<li class="list-group-item"><a>Jake Bloom</a></li>
+					<li class="list-group-item"><a>Nick Whyte</a></li>
+					<li class="list-group-item"><a>Steven Strijakov</a></li>					
+				</ul>
+			</div>
+		</div>
+	
+	</div><!-- /row -->
 
 {% endblock %}
