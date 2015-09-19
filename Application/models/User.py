@@ -1,15 +1,7 @@
 from Application import db
 from flask_login import UserMixin
 
-class Project(db.Document):
-    id = db.IntField(required=True)
-    name = db.StringField()
-    date_uploaded = db.CreatedField()
-    primary_image = db.AnythingField(required=False)
-    description = db.StringField()
-    images = db.ListField(db.AnythingField(required=False))
-    devs = db.SetField(db.DocumentField("User"))
-    stars = db.SetField(db.DocumentField("User"))
+from .Project import Project
 
 class User(db.Document, UserMixin):
     dn = db.StringField()
@@ -26,4 +18,3 @@ class User(db.Document, UserMixin):
     stars = db.SetField(db.DocumentField(Project))
     followers = db.SetField(db.DocumentField("User"))
     following = db.SetField(db.DocumentField("User"))
-
