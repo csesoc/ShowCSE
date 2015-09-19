@@ -27,6 +27,7 @@ db = MongoAlchemy(app)
 # Register blueprints
 from Application.modules.frontend import frontend
 app.register_blueprint(frontend, url_prefix='')
+<<<<<<< HEAD
 
 # Setup LDAP Login
 from flask.ext.ldap3_login.forms import LDAPLoginForm
@@ -145,3 +146,5 @@ def login():
 @app.route('/ldap')
 def ldap_info():
     pass
+=======
+>>>>>>> 33a8d52d535607162cdda788f35255468223e77e
