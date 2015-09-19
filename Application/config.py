@@ -1,3 +1,4 @@
 class Config(object):
-    pass
+    APP_NAME = "ShowCSE"
+    MONGOALCHEMY_DATABASE = "webskale"
 

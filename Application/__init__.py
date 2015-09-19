@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_boilerplate_utils import Boilerplate
 from flask_menu import Menu
+from flask.ext.mongoalchemy import MongoAlchemy
 
 app = Flask(__name__)
 
@@ -20,12 +21,9 @@ monkey_patch_all()
 # Setup Flask Menu
 Menu(app)
 
+#Setup db
+db = MongoAlchemy(app)
+
 # Register blueprints
 from Application.modules.frontend import frontend
 app.register_blueprint(frontend, url_prefix='')
-
-from flask import render_template
-
-@app.route('/')
-def home_test():
-    return render_template('index.html')
