@@ -1,6 +1,56 @@
 {% extends "frontend/profile/base.html" %}
 {% block content %}
-	<div class="jumbotron">
-		<h1>Profile</h1>
+	
+	<div class="row">
+		<div class="col-xs-12">
+			<div class="panel panel-default panel-body">
+				<h1>FirstName Surname</h1>
+				<h4>Program Name</h4>		
+			</div>
+		</div>
 	</div>
+	
+	<div class="row">
+		<div class="col-xs-12 col-sm-8">
+			<div class="panel">
+				<div class="panel panel-default panel-body">
+					<h3>About</h3>
+					{{lipsum(1)}}
+					<hr />
+					<a>GitHub</a><br />
+					<a>Website</a>
+				</div>
+			</div>
+		</div>
+		
+		<div class="col-xs-12 col-sm-4">
+			<div class="panel panel-default panel-body">
+				<h3>Starred Projects</h3>
+				<ul class="list-group">
+					<li class="list-group-item"><a>ShowCSE</a></li>
+					<li class="list-group-item"><a>Flask LDAP Login</a></li>
+					<li class="list-group-item"><a>BARK</a></li>
+				</ul>
+			</div>
+		</div>
+	</div> <!-- row -->
+	
+	<div class="row">
+		<div class="col-xs-12">
+			<div class="panel panel-default panel-body">
+				<h3>Project name</h3>
+				{{lipsum(3)}}
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-xs-12">
+			<div class="panel panel-default panel-body">
+				<h3>Project name</h3>
+				{{lipsum(3)}}
+			</div>
+		</div>
+	</div>
+
 {% endblock %}
