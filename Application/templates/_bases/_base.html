@@ -35,13 +35,11 @@
                 }
                 </style>
             {% endif %}
-            <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='_css/main_global.min.css') }}">
         {% endblock %}
 
         {% block js %}
             <script type="text/javascript" src="{{ url_for('static', filename='_vendor/jquery/jquery.min.js') }}"></script>
             <script type="text/javascript" src="{{ url_for('static', filename='_vendor/bootstrap/js/bootstrap.min.js') }}"></script>
-            <script type="text/javascript" src="{{ url_for('static', filename='_js/main_global.min.js') }}"></script>
             {% if is_form %}
                 <script type="text/javascript" src="{{ url_for('static', filename='_vendor/jasny-bootstrap/js/jasny-bootstrap.min.js') }}"></script>
                 <script type="text/javascript" src="{{ url_for('static', filename='_vendor/bootstrap-select/js/bootstrap-select.min.js') }}"></script>

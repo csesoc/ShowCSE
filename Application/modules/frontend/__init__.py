@@ -3,7 +3,7 @@ from flask.ext import menu
 from flask_menu.classy import register_flaskview
 
 frontend = NestableBlueprint('frontend', __name__, template_folder="templates", 
-    static_folder="static")
+    static_folder="static", static_url_path='/resource')
 
 from .controllers.Home import Home
 Home.register(frontend)
