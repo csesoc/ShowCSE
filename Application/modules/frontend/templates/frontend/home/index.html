@@ -1,6 +1,7 @@
 {% extends "frontend/home/base.html" %}
 
 {% block content %}
+
 <div id="myCarousel" class="carousel slide" data-ride="carousel" style="margin-bottom:20px">
   <!-- Indicators -->
   <ol class="carousel-indicators">
@@ -14,25 +15,34 @@
   </ol>
 
   <!-- Wrapper for slides -->
-  <div class="carousel-inner" role="listbox">
+  <div class="carousel-inner" role="listbox" style="overflow:hidden">
     {% for i in range(4) %}
       {% if i == 0 %}
-      <div class="item active">
+      <div class="item active" align="center">
       {% else %}
-      <div class="item">
+      <div class="item" align="center">
       {% endif %}
+        
+        <!-- Pane item -->
+        <div class="row" style="margin-top:15px">
+          <!-- Img Icon -->
+          <div class="col col-md-4" align="center">
+            <div class="panel">
+              <img src="http://placekitten.com/g/250/250" alt="..." class="img-thumbnail"</img>
+            </div>
+          </div>
+          <!-- Img Icon -->
 
-        <!--<img src="http://placekitten.com/1200/315" alt="Chania"> -->
-        <table>
-          <tr>
-            <td width="20%">
-              <a href="http://127.0.0.1:8000"><img src="http://placekitten.com/g/160/160" alt="..."</img></a>
-            </td>
-            <td width="80%" align="center">
-              README
-            </td>
-          </tr>
-        </table>
+          <!-- Readme -->
+          <div class="col col-md-7">
+            <div class="panel panel-default panel-body" style="word-break:break-all">
+              <h1>Project Title</h1>
+              <h4 align="justify">{{ lipsum(1) }}</h4>
+            </div>
+          </div>
+          <!-- /Readme -->
+        </div>
+        <!-- /Pane Item -->
       </div>
     {% endfor %}
   </div>
@@ -48,23 +58,27 @@
   </a>
 </div>
 
-<div class="panel panel-default">
-  <!--<div class="panel-heading">User Name</div> -->
-  <table class="table table-hover table-bordered">
-    {% for i in range(4) %}
-      <tr>
-        <th>User</th><th>README</th>
-      </tr>
-      <tr>
-        <td width="20%">
-          <a href="http://127.0.0.1:8000"><img src="http://placekitten.com/g/160/160" alt="..."</img></a>
-        </td>
-        <td width="80%" align="center">
-          README
-        </td>
-      </tr>
-    {% endfor %}
-  </table>
-</div>
+<!--
+	<div class="row">
+		<div class="col-xs-12">
+			<div class="panel panel-default panel-body">
+				<h4>Top Feed</h4>		
+			</div>
+		</div>
+	</div>
+-->
+
+{% for i in range(4) %}
+  <div class="container">
+    <div class="row">
+      <div class="col col-md-4">
+        <h4>test</h4>
+      </div>
+      <div class="col col-md-8">
+        <h4>test</h4>
+      </div>
+    </div>
+  </div>
+{% endfor %}
 
 {% endblock %}
