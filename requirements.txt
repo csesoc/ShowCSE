@@ -2,3 +2,5 @@ flask
 flask-ldap3-login
 flask-boilerplate-utils
 flask-boilerplate-buildutils
+Flask-MongoAlchemy # WebSKALEEEE
+flask-menu

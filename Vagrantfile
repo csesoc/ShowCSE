@@ -15,6 +15,10 @@ Vagrant.configure(2) do |config|
   config.vm.box = "debian/jessie64"
   config.vm.synced_folder "./", "/deploy/com.csesoc.showcse/"
   config.vm.provision :shell, path: "bootstrap.sh"
+  config.vm.network "forwarded_port", guest: 8000, host: 8000
+
+  # For when we configure nginx
+  config.vm.network "forwarded_port", guest: 80, host: 8080
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
