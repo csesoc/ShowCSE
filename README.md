@@ -1,1 +1,9 @@
 # ShowCSE
+
+
+## Developing
+
+
+```
+$ vagrant up
+```
