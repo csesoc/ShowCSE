@@ -1,7 +1,6 @@
 {% extends "frontend/project/base.html" %}
 {% block head %}
     {{super()}}
-    <script type="text/javascript" src="{{ url_for('.static', filename='js/dropzone.min.js') }}"></script>
     <style type="text/css">
         .btn-file {
             position: relative;
@@ -55,7 +54,7 @@
     </script>
 {% endblock %}
 {% block content %}
-    <form method="POST" class="dropzone" action="{{ url_for('.Project:submit') }}">
+    <form method="POST" action="{{ url_for('.Project:submit') }}" enctype="multipart/form-data">
         {{ form.hidden_tag() }}
         <div class="panel panel-default">
             <div class="panel-heading">New Project</div>
