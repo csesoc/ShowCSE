@@ -1,1 +1,35 @@
 {% extends "frontend/project/base.html" %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-xs-12 col-sm-3">
+            <div class="panel panel-default">
+                <ul class="list-group">
+                    <li class="list-group-item">Project: <strong>ShowCSE</strong></li>
+                    <li class="list-group-item">By: <strong>CSESoc</strong></li>
+                    <a href="#" class="list-group-item" style="border-top-width: 2px;">Download From Github</a>
+                    <a href="#" class="list-group-item">Project Webpage</a>
+                    <a href="#" class="list-group-item">Demo</a>
+                </ul>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-9">
+            <div class="row">
+                {% for x in range(3) %}
+                <div class="col-xs-6 col-sm-3">
+                    <a href="#" class="thumbnail">
+                        <img src="http://baconmockup.com/300/300">
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+
+
+            <div class="panel panel-default">
+                <div class="panel panel-body">
+                    Hello World
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
