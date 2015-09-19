@@ -14,6 +14,8 @@ easy_install pip
 easy_install3 pip
 pip install virtualenv
 
+
+
 # Install Node/NPM
 apt-get install --yes nodejs npm
 ln -s /usr/bin/nodejs /usr/bin/node
@@ -24,6 +26,10 @@ cd $PROJECT_ROOT;
 
 if [ -e ".venv" ]; then
     rm -rf ".venv"; #Delete venv if it exists;
+fi
+
+if [ -e "node_modules" ]; then
+    rm -rf "node_modules";
 fi
 
 virtualenv -p $PYTHON_BINARY ".venv"
