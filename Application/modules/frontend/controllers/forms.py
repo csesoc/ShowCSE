@@ -22,10 +22,3 @@ class LoginForm(LDAPLoginForm):
         self.submit.label.text = "Login"
         self.username.label.text = "UNSW zID <small>eg. z1234567</small>"
 
-    def validate(self, *args, **kwargs):
-        _username = self.username.data
-        self.username.data = "{}@ad.unsw.edu.au".format(_username)
-        rv = super(LoginForm, self).validate(*args, **kwargs)
-        self.username.data = _username
-        return rv
-
