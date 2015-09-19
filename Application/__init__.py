@@ -57,10 +57,10 @@ from flask import render_template_string, redirect
 # Simply returns the User if it exists in our 'database', otherwise 
 # returns None.
 
-from .models.User import User
+from .models import User
 @login_manager.user_loader
-def load_user(id):
-    user = User.query.filter_by(User.zid == id).first()
+def load_user(username):
+    user = User.query.filter(User.zid == username).first()
     return user
 
 
@@ -70,8 +70,19 @@ def load_user(id):
 # login controller.
 @ldap_manager.save_user
 def save_user(dn, username, data, memberships):
-    user = User(dn, username, data)
-    users[dn] = user
+    user = load_user(username)
+    if user is None:
+        user = User(
+            dn=dn,
+            zid=username,
+        )
+
+    user.fullname = "{} {}".format(
+        data['givenName'][0],
+        data['sn'][0],
+    )
+    user.program = "??"
+    user.save()
     return user
 
 # Declare some routes for usage to show the authentication process.
