@@ -56,24 +56,6 @@ from flask import render_template_string, redirect
 users = {}
 
 
-# Declare an Object Model for the user, and make it comply with the 
-# flask-login UserMixin mixin.
-class User(UserMixin):
-    def __init__(self, dn, username, data):
-        self.dn = dn
-        self.username = username
-        self.data = data
-
-    def __repr__(self):
-        return self.dn
-
-    def get_id(self):
-        return self.dn
-
-    def is_anonymous(self):
-        return False
-
-
 # Declare a User Loader for Flask-Login.
 # Simply returns the User if it exists in our 'database', otherwise 
 # returns None.
