@@ -9,7 +9,7 @@ from wtforms import (
     BooleanField,
     IntegerField,
     PasswordField,
-    HiddenField
+    HiddenField,
 )
 from wtforms import widgets
 import wtforms.validators as validators
@@ -31,9 +31,9 @@ class SubmitProjectForm(Form):
     description = TextAreaField("Project Description")
     submit = SubmitField("Add Project")
 
-    download_link = TextField("Download Link")
-    website_link = TextField("Website Link")
-    demo_link = TextField("Demo Link")
+    download_link = TextField("Download Link", description="(optional)")
+    website_link = TextField("Website Link", description="(optional) A link to a website about your project")
+    demo_link = TextField("Demo Link", description="(optional) A link to a working demo of your project")
 
     contributors = TextField("Contributors (zID's)")
     tags = TextField("Tags", description="Space separated")
