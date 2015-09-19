@@ -5,6 +5,11 @@ class Project(db.Document):
 	name = db.StringField()
 	date_uploaded = db.CreatedField()
 	primary_image = db.AnythingField(required=False)
-	images = db.ListField(db.AnythingField(required=False))
+<<<<<<< HEAD
+	images = db.ListField()
 	devs = db.SetField(db.DocumentField(User))
-   
+=======
+	# images = db.ListField()
+	# devs = db.SetField(db.DocumentField())
+    #TODO JB: FIX THAT ^
+>>>>>>> 562a4bbe66527a84a5b6657ea0f236df69e192ac
