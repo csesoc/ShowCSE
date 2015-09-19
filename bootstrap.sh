@@ -3,7 +3,7 @@
 apt-get update
 apt-get install -y python2.7 python3.4 python3-dev python-dev python-setuptools python3-setuptools
 apt-get install -y mongodb redis-server
-apt-get install -y git
+apt-get install -y git curl
 
 # Tell the bootstrap where the project is mounted
 PROJECT_ROOT="/deploy/com.csesoc.showcse/"
@@ -17,8 +17,8 @@ pip install virtualenv
 
 
 # Install Node/NPM
-apt-get install --yes nodejs npm
-ln -s /usr/bin/nodejs /usr/bin/node
+curl --silent --location https://deb.nodesource.com/setup_0.12 | bash -
+apt-get install --yes nodejs
 npm install -g grunt-cli # Get grunt too
 npm install -g bower
 
