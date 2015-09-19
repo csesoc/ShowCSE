@@ -3,6 +3,8 @@ from flask import render_template, redirect, url_for
 from flask_menu.classy import classy_menu_item
 from flask_login import current_user, login_required
 
+from Application.models import User
+
 def show_menu():
     return current_user.is_authenticated
 
@@ -22,4 +24,6 @@ class Profile(FlaskView):
 
     @route('/<string:user_id>/')
     def user(self, user_id):
-        return render_template('.profile/index.html', user=None)
+        user = User.query.filter(User.zid == user_id).first()
+        print(user)
+        return render_template('.profile/index.html', user=user)
