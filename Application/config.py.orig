@@ -1,9 +1,0 @@
-class Config(object):
-<<<<<<< HEAD
-    SECRET_KEY = 'SUPER SECRET KEY'
-    pass
-=======
-    APP_NAME = "ShowCSE"
-    MONGOALCHEMY_DATABASE = "webskale"
->>>>>>> 33a8d52d535607162cdda788f35255468223e77e
-
