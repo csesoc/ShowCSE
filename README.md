@@ -9,7 +9,7 @@
 (vagrant@debian) $ cd /deploy/com.csesoc.showcse
 (vagrant@debian) $ source .env
 # Now you're in the venv
-(vagrant@debian) $ python run.py --host 0.0.0.0
+(vagrant@debian) $ python run.py server --host 0.0.0.0
 ```
 
 ##### Upgrading the virtual environment with new requirements
