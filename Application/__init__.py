@@ -24,7 +24,8 @@ Menu(app)
 from Application.modules.frontend import frontend
 app.register_blueprint(frontend, url_prefix='')
 
+from flask import render_template
 
 @app.route('/')
 def home_test():
-    return "Hello World!"
+    return render_template('index.html')
