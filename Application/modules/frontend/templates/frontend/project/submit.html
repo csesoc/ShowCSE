@@ -1,5 +1,31 @@
 {% extends "frontend/project/base.html" %}
 
 {% block content %}
+    <div class="panel panel-default">
+        <div class="panel-heading">New Project</div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-xs-12 col-sm-8">
+                    {{ render_field(form.name) }}
+                    <div class="form-group">
+                        <label for="description" >Project Description</label>
+                        {{ render_field(form.description, class="form-control") }}
+                    </div>
+                    <div class="form-group">
+                        <label>Images</label>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-4">
+                    {{ render_field(form.download_link) }}
+                    {{ render_field(form.website_link) }}
+                    {{ render_field(form.demo_link) }}
+                    {{ render_field(form.tags) }}
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer text-right">
+            {{ render_field(form.submit, class="btn btn-primary") }}
 
+        </div>
+    </div>
 {% endblock %}
