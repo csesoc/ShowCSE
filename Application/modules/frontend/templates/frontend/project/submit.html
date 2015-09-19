@@ -1,5 +1,101 @@
 {% extends "frontend/project/base.html" %}
-
+{% block head %}
+    {{super()}}
+    <script type="text/javascript" src="{{ url_for('.static', filename='js/dropzone.min.js') }}"></script>
+    <style type="text/css">
+        .btn-file {
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-file input[type=file] {
+            position: absolute;
+            top: 0;
+            right: 0;
+            min-width: 100%;
+            min-height: 100%;
+            font-size: 100px;
+            text-align: right;
+            filter: alpha(opacity=0);
+            opacity: 0;
+            background: red;
+            cursor: inherit;
+            display: block;
+        }
+        input[readonly] {
+            background-color: white !important;
+            cursor: text !important;
+        }
+    </style>
+    <script type="text/javascript">
+        // thankyou: http://www.abeautifulsite.net/whipping-file-inputs-into-shape-with-bootstrap-3/
+        $(document).ready( function() {
+            $('.btn-file :file').on('fileselect', function(event, numFiles, label) {
+                var input = $(this).parents('.input-group').find(':text');
+                var log = numFiles > 1 ? numFiles + ' files selected' : label;
+                
+                if( input.length ) {
+                    input.val(log);
+                } else {
+                    if(log) {
+                        alert(log);
+                    }
+                }
+            });
+            $(document).on('change', '.btn-file :file', function() {
+                var input = $(this),
+                numFiles = input.get(0).files ? input.get(0).files.length : 1,
+                label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+                input.trigger('fileselect', [numFiles, label]);
+            });
+            $('.fileupload input[type="text"]').click(function(e) {
+                var upload = $(e.target).parent().find('input[type="file"]');
+                $(upload).click();
+            })
+        });
+    </script>
+{% endblock %}
 {% block content %}
+    <form method="POST" class="dropzone" action="{{ url_for('.Project:submit') }}">
+        {{ form.hidden_tag() }}
+        <div class="panel panel-default">
+            <div class="panel-heading">New Project</div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-8">
+                        {{ render_field(form.name) }}
+                        <div class="form-group">
+                            <label for="description" >Project Description</label>
+                            {{ render_field(form.description, class="form-control") }}
+                        </div>
+                        <div class="form-group">
+                            <label>Images</label>
+                            <div class="input-group fileupload">
+                                <span class="input-group-btn">
+                                    <span class="btn btn-primary btn-file">
+                                        Browse&hellip; 
+                                        <input type="file" name="images" accept="image/gif, image/jpeg, image/png, image/jpg" multiple>
+                                    </span>
+                                </span>
+                                <input type="text" class="form-control" readonly>
+                            </div>
+                            <span class="help-block">
+                                You can select more than one image.
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-4">
+                        {{ render_field(form.download_link) }}
+                        {{ render_field(form.website_link) }}
+                        {{ render_field(form.demo_link) }}
+                        {{ render_field(form.tags) }}
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer text-right">
+                {{ render_field(form.submit, class="btn btn-primary") }}
+
+            </div>
+        </div>
+    </form>
 
 {% endblock %}

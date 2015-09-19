@@ -1,111 +1,119 @@
 {% extends "frontend/profile/base.html" %}
+
 {% block content %}
-	
-	<!-- Name and program -->
-	<div class="row">
-		<div class="col-xs-12">
-			<div class="panel panel-default panel-body">
-				<h1>{{ user.fullname }}</h1>
-				<h4>{{ user.program }}</h4>		
-			</div>
-		</div>
-	</div>
-	
-	<!-- About themselves -->
-	<div class="row">
-		<div class="col-xs-12 col-sm-8">
-			<div class="panel panel-default">
-				<div class="panel-body">
-					<h3>About</h3>
-					{{ user.about }}
-					<hr />
-					{% if user.github %}
-						<a href="{{ user.github }}">GitHub</a><br />
-					{% endif %}
-					{% if user.website %}
-						<a href="{{user.website}}">Website</a>
-					{% endif %}
-				</div>
-			</div>
-		</div>
-		
-		<!-- Starred projects -->
-		<div class="col-xs-12 col-sm-4">
-			<div class="panel panel-default panel-body">
-				<h3>Starred Projects</h3>
-				{% if user.stars  %}
-					<ul class="list-group">
-						{% for star in user.stars %}
-							<li class="list-item"><a>{{ star.name }}</a></li>
-							<!-- TODO: URL endpoint for individual project -->
-						{% endfor %}
-					</ul>
-				{% endif %}
-			</div>
-		</div>
-	</div> <!-- row -->
-	
-	<!-- Projects section -->
-	{% for project in user.projects %}
-		<div class="row">
-			<div class="col-xs-12">
-				<div class="panel panel-default panel-body">
-					<div class="col-xs-12 col-sm-4">
-						<img src="http://baconmockup.com/200/200/" />
-					</div>
-					<div class="col-xs-12 col-sm-8">	
-						<h3>{{ project.name }}</h3>
-						{{ project.description }}
-					</div>
-				</div>
-			</div>
-		</div>
-	{% endfor %}
 
-	<!-- Followers, following -->
-	<div class="row">
-		
-		<!-- Followers -->
-		<div class="col-xs-12 col-sm-6">
-			<div class="panel panel-default">
-				<div class="panel-heading">
-					<h3 class="panel-title">Followers</h3>
-				</div>
-				{% if user.followers %}
-					<ul class="list-group">
-						{% for follower in user.followers %}
-							<li class="list-group-item"><a href="{{url_for('frontend.Profile:index', user_id=follower.zid)}}">{{ follower.fullname }}</a></li>
-						{% endfor %}
-					</ul>
-				{% else %}
-					<div class="panel-body text-center">
-						<p>This user has no followers</p>
-					</div>
-				{% endif %}
-			</div>
-		</div>
-	
-		<!-- Following -->
-		<div class="col-xs-12 col-sm-6">
-			<div class="panel panel-default">
-				<div class="panel-heading">
-					<h3 class="panel-title">Following</h3>
-				</div>
-				{% if user.following %}
-					<ul class="list-group">
-						{% for follow in user.following %}
-							<li class="list-group-item"><a href="{{url_for('frontend.Profile:index', user_id=follower.zid)}}">{{ follow.fullname }}</a></li>
-						{% endfor %}
-					</ul>
-				{% else %}
-					<div class="panel-body text-center">
-						<p>This user is not following anyone</p>
-					</div>
-				{% endif %}
-			</div>
-		</div>
+    <div class="pull-right">
+        {% if user != current_user %}
+            <!-- TODO: figure out if users are following each other -->
+            <a href="#" class="btn btn-primary">Follow</a>
+        {% endif %}
+        {% if user.github %}
+            <a href="{{user.github}}" class="btn btn-primary">Github</a>
+        {% endif %}
+        {% if user.website %}
+            <a href="{{user.website}}" class="btn btn-primary">Website</a>
+        {% endif %}
 
-	
-	</div><!-- /row -->
+    </div>
+    <h2 style="margin-top:0px;">{{ user.fullname }}</h2>
+    <div class="clearfix"></div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-3">
 
+            <!-- Starred projects section -->
+            <div class="panel panel-default">
+                <div class="panel-heading">Starred Projects</div>
+                    {% if user.stars  %}
+                        <ul class="list-group">
+                            {% for star in user.stars %}
+                                <li class="list-item"><a>{{ star.name }}</a></li>
+                                <!-- TODO: URL endpoint for individual project -->
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <div class="panel-body text-center">
+                            <p>This user has no starred projects</p>
+                        </div>
+                    {% endif %}
+            </div>
+
+            <!-- Followers section -->
+            <div class="panel panel-default">
+                <div class="panel-heading">Followers</div>
+                {% if user.followers %}
+                    <ul class="list-group">
+                        {% for follower in user.followers %}
+                            <li class="list-group-item"><a href="{{url_for('frontend.Profile:index', user_id=follower.zid)}}">{{ follower.fullname }}</a></li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <div class="panel-body text-center">
+                        <p>This user has no followers</p>
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Following section -->
+            <div class="panel panel-default">
+                <div class="panel-heading">Following</div>
+                {% if user.following %}
+                    <ul class="list-group">
+                        {% for follow in user.following %}
+                            <li class="list-group-item"><a href="{{url_for('frontend.Profile:index', user_id=follower.zid)}}">{{ follow.fullname }}</a></li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <div class="panel-body text-center">
+                        <p>This user is not following anyone</p>
+                    </div>
+                {% endif %}
+            </div>
+        
+        </div><!-- /col -->
+
+
+        <div class="col-xs-12 col-sm-9">
+            
+            <!-- About section -->
+            <div class="row">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <h3>About</h3>
+                        {% if user.about %}
+                            {{ user.about }}
+                        {% else %}
+                            <p>This user has not filled out this section of their profile</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Projects section -->
+            {% if user.projects %}
+                {% for project in user.projects %}
+                    <div class="row">
+                        <div class="panel panel-default panel-body">
+                            <div class="col-xs-12 col-sm-4">
+                                <img src="http://baconmockup.com/200/200/" />
+                            </div>
+                            <div class="col-xs-12 col-sm-8">    
+                                <h3>{{ project.name }}</h3>
+                                {{ project.description }}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="row">
+                    <div class="panel panel-default panel-body">
+                        <div class="col-xs-12">
+                            <h3>This User has no Projects</h3>                      
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+
+        </div><!-- /col -->
+    </div><!-- /row -->
 {% endblock %}

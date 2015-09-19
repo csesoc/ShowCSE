@@ -13,11 +13,11 @@ class User(db.Document, UserMixin):
     
     program = db.StringField(required=False, default=None)
     admin = db.BoolField(default=False)
-    # projects = db.SetField(db.DocumentField(Project))
+    projects = db.SetField(db.DocumentField(Project), default=None)
     about = db.StringField(required=False, default=None)
-    # stars = db.SetField(db.DocumentField(Project))
-    # followers = db.SetField(db.DocumentField("User"))
-    # following = db.SetField(db.DocumentField("User"))
+    stars = db.SetField(db.DocumentField(Project), default=None)
+    followers = db.SetField(db.DocumentField("User"), default=None)
+    following = db.SetField(db.DocumentField("User"), default=None)
 
     def get_id(self):
         return self.zid

@@ -24,6 +24,5 @@ class Profile(FlaskView):
 
     @route('/<string:user_id>/')
     def user(self, user_id):
-        user = User.query.filter(User.zid == user_id).first()
-        print(user)
+        user = User.query.filter(User.zid == user_id).first_or_404()
         return render_template('.profile/index.html', user=user)
