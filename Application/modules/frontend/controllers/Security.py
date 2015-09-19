@@ -1,5 +1,5 @@
 from flask.ext.classy import FlaskView, route
-from flask import render_template, redirect, url_for
+from flask import render_template, redirect, url_for, request
 from flask_menu.classy import classy_menu_item
 from flask_login import current_user, login_required, logout_user, login_user
 
@@ -20,11 +20,17 @@ class Security(FlaskView):
     @route('/login', methods=['GET','POST'])
     def login(self):
         form = LoginForm()
+        if request.args.get('next'):
+            form.next.data = request.args.get('next')
+
         if form.validate_on_submit():
             login_user(form.user)
 
         if current_user.is_authenticated:
-            return redirect(url_for('.Home:index'))
+            if form.next.data:
+                return redirect(form.next.data)
+            else:
+                return redirect(url_for('.Home:index'))
 
         return render_template('.security/login.html', form=form)
 

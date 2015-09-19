@@ -8,7 +8,8 @@ from wtforms import (
     StringField, 
     BooleanField,
     IntegerField,
-    PasswordField
+    PasswordField,
+    HiddenField
 )
 from wtforms import widgets
 import wtforms.validators as validators
@@ -16,6 +17,8 @@ import wtforms.validators as validators
 from flask_ldap3_login.forms import LDAPLoginForm
 
 class LoginForm(LDAPLoginForm):
+
+    next = HiddenField()
 
     def __init__(self, *args, **kwargs):
         super(LoginForm, self).__init__(*args, **kwargs)

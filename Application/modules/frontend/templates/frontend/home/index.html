@@ -71,11 +71,37 @@
 {% for i in range(4) %}
   <div class="container">
     <div class="row">
-      <div class="col col-md-4">
-        <h4>test</h4>
-      </div>
-      <div class="col col-md-8">
-        <h4>test</h4>
+      <div class="panel panel-default">
+        <div class="col-md-2 col-xs-offset-1">
+
+          <!-- IMAGE -->
+          <div class="panel panel-default" style="margin-top:40px">
+            <img src="http://placekitten.com/g/120/120" alt="..." class="img-thumbnail"</img>
+          </div>
+          <!-- /IMAGE -->
+        </div>
+
+        <!-- Project Info -->
+        <div class="col-md-9" style="margin-top:20px">
+          <div class="panel panel-default">
+            <!-- Title -->
+            <div class="panel-heading">
+              <h3 class="panel-title">Project Title</h3>
+            </div>
+            <!-- /Title -->
+
+            <!-- README -->
+            <div class="panel-body text-justify">
+              <p>Yo</p>
+            </div>
+            <!-- /README -->
+
+            <div class="panel-footer">
+              <p>Github/User Profile Page</p>
+            </div>
+          </div>
+        </div>
+        <!-- /Project Info -->
       </div>
     </div>
   </div>

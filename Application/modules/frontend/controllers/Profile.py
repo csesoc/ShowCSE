@@ -11,7 +11,7 @@ def show_menu():
 class Profile(FlaskView):
     route_base = '/profile'
 
-    @classy_menu_item('frontend-right.account', 'Account', visible_when=show_menu)
+    @classy_menu_item('frontend-right.account', 'Account', visible_when=show_menu, order=1)
     @classy_menu_item('frontend-right.account.profile', 'My Profile', order=0)
     @login_required
     def index(self):
