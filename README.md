@@ -3,7 +3,6 @@
 
 ## Developing
 
-
 ```
 (you) $ vagrant up
 (you) $ vagrant ssh
