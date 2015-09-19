@@ -5,12 +5,22 @@ from flask_menu.classy import register_flaskview
 frontend = NestableBlueprint('frontend', __name__, template_folder="templates", 
     static_folder="static")
 
-# from .controllers.Index import Index
-# Index.register(frontend)
-# register_flaskview(frontend, Index)
+from .controllers.Home import Home
+Home.register(frontend)
+register_flaskview(frontend, Home)
 
-# Pragma - Submodule Registration Start
-# Anything after the above line will be removed after cleanup.
+from .controllers.Profile import Profile
+Profile.register(frontend)
+register_flaskview(frontend, Profile)
+
+from .controllers.Project import Project
+Project.register(frontend)
+register_flaskview(frontend, Project)
+
+
+
+
+# SUbmodules if we ever need them?
 # from .modules.learn_flask import learn_flask
 # from .modules.examples import examples
 # from .modules.cleanup import cleanup
