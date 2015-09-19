@@ -7,15 +7,15 @@ frontend = NestableBlueprint('frontend', __name__, template_folder="templates",
 
 from .controllers.Home import Home
 Home.register(frontend)
-register_flaskview(frontend, Index)
+register_flaskview(frontend, Home)
 
 from .controllers.Profile import Profile
 Profile.register(frontend)
-register_flaskview(frontend, Index)
+register_flaskview(frontend, Profile)
 
 from .controllers.Project import Project
 Project.register(frontend)
-register_flaskview(frontend, Index)
+register_flaskview(frontend, Project)
 
 
 
