@@ -14,6 +14,7 @@
         {% endblock %}
         {% block css %}
             <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='_vendor/bootstrap/css/bootstrap.min.css') }}">
+            <link rel="stylesheet" type="text/css" media="screen" href="{{ url_for('static', filename='sticky-footer.css') }}">
             {% if is_form %}
                 {# If this template is rendered with the is_form flag, include some extra form elements. #}
                 <link rel="stylesheet" type="text/css" media="screen" href="{{ url_for('static', filename='_vendor/jasny-bootstrap/css/jasny-bootstrap.min.css') }}">
@@ -60,5 +61,10 @@
     {% block body %}
 
     {% endblock %}
+    <footer class="footer">
+        <div class="container">
+            <p class="text-muted" style="text-align:center">ShowCSE was written by Nicholas Whyte, Steven Strijakov and Jake Bloom. Future generations of CSE, please keep this alive!</p>
+        </div>
+    </footer>
 </body>
 </html>
