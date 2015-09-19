@@ -123,6 +123,7 @@ module.exports = function(grunt) {
                     {expand: true, cwd: 'bower_components/bootstrap-select/dist/', src: ['**'], dest: 'Application/static/_vendor/bootstrap-select/'},
                     {expand: true, cwd: 'bower_components/jasny-bootstrap/dist/', src: ['**'], dest: 'Application/static/_vendor/jasny-bootstrap/'},
                     {expand: true, cwd: 'bower_components/jquery/dist/', src: ['**'], dest: 'Application/static/_vendor/jquery/'},
+                    {expand: true, cwd: 'bower_components/bootstrap-material-design/dist/', src: ['**'], dest: 'Application/static/_vendor/bootstrap-material-design/'},
                 ]
             }
         }
