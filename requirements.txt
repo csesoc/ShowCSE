@@ -4,3 +4,4 @@ flask-boilerplate-utils
 flask-boilerplate-buildutils
 Flask-MongoAlchemy # WebSKALEEEE
 flask-menu
+flask-login
