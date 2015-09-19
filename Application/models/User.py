@@ -1,5 +1,6 @@
 from Application import db
 from flask_login import UserMixin
+from Project import Project
 
 class User(db.Document, UserMixin):
 	dn = db.StringField()
@@ -12,5 +13,5 @@ class User(db.Document, UserMixin):
 	email = db.StringField()
 	program = db.StringField()
 	admin = db.BoolField()
-	# projects = db.SetField(db.DocumentField())
-	# TODO JB: TypeError: __init__() missing 1 required positional argument: 'document_class'
+	projects = db.SetField(db.DocumentField(Project))
+	
