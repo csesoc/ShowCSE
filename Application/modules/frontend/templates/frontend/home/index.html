@@ -1,7 +1,7 @@
 {% extends "frontend/home/base.html" %}
 
 {% block content %}
-<div id="myCarousel" class="carousel slide" data-ride="carousel">
+<div id="myCarousel" class="carousel slide" data-ride="carousel" style="margin-bottom:20px">
   <!-- Indicators -->
   <ol class="carousel-indicators">
     {% for i in range(4) %}
@@ -41,4 +41,13 @@
     <span class="sr-only">Next</span>
   </a>
 </div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">User Name</div>
+  <table class="table">
+    <tr>
+      <td width="20%"><a href="127.0.0.1:8000"><img src="http://placehold.it/160x160" alt="..."</img></a></td><td width="80%" align="center">README</td></tr>
+  </table>
+</div>
+
 {% endblock %}
