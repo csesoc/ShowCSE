@@ -17,6 +17,9 @@ from .controllers.Project import Project
 Project.register(frontend)
 register_flaskview(frontend, Project)
 
+from .controllers.Security import Security
+Security.register(frontend)
+register_flaskview(frontend, Security)
 
 
 

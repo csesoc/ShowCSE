@@ -6,50 +6,56 @@
 
 {% endblock %}
 {% block body %}
-<div class="navbar navbar-default">
-                <div class="navbar-header">
-                  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+    <div class="navbar navbar-default">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
-                  </button>
-                  <a class="navbar-brand" href="javascript:void(0)">Brand</a>
-                </div>
-                <div class="navbar-collapse collapse navbar-responsive-collapse">
-                  <ul class="nav navbar-nav">
-                    <li class="active"><a href="javascript:void(0)">Active</a></li>
-                    <li><a href="javascript:void(0)">Link</a></li>
-                    <li class="dropdown">
-                      <a href="http://fezvrasta.github.io/bootstrap-material-design/bootstrap-elements.html" data-target="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Dropdown <b class="caret"></b><div class="ripple-wrapper"></div></a>
-                      <ul class="dropdown-menu">
-                        <li><a href="javascript:void(0)">Action</a></li>
-                        <li><a href="javascript:void(0)">Another action</a></li>
-                        <li><a href="javascript:void(0)">Something else here</a></li>
-                        <li class="divider"></li>
-                        <li class="dropdown-header">Dropdown header</li>
-                        <li><a href="javascript:void(0)">Separated link</a></li>
-                        <li><a href="javascript:void(0)">One more separated link</a></li>
-                      </ul>
-                    </li>
-                  </ul>
-                  <form class="navbar-form navbar-left">
-                    <input type="text" class="form-control col-lg-8" placeholder="Search">
-                  </form>
-                  <ul class="nav navbar-nav navbar-right">
-                    <li><a href="javascript:void(0)">Link<div class="ripple-wrapper"></div></a></li>
-                    <li class="dropdown">
-                      <a href="http://fezvrasta.github.io/bootstrap-material-design/bootstrap-elements.html" data-target="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-                      <ul class="dropdown-menu">
-                        <li><a href="javascript:void(0)">Action</a></li>
-                        <li><a href="javascript:void(0)">Another action</a></li>
-                        <li><a href="javascript:void(0)">Something else here</a></li>
-                        <li class="divider"></li>
-                        <li><a href="javascript:void(0)">Separated link</a></li>
-                      </ul>
-                    </li>
-                  </ul>
-                </div>
-              </div>
+                </button>
+                <a class="navbar-brand" href="javascript:void(0)">Show<strong>CSE</strong></a>
+            </div>
+            <div class="navbar-collapse collapse navbar-responsive-collapse">
+                <ul class="nav navbar-nav">
+                    {% for item in current_menu.submenu('frontend').children if item.visible recursive %}
+                        {%- if item.children -%}
+                        <li class='dropdown {{ 'active' if item.active }}'>
+                            <a href="{{ item.url }}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ item.text }}<span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                {{ loop(item.children) }}
+                            </ul>
+                        </li>
+                        {% else %}
+                        <li {{ 'class=active' if item.active }}>
+                            <a href="{{ item.url }}">{{ item.text }}</a>
+                        </li>
+                        {%- endif -%}
+                    {% endfor %}
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    {% for item in current_menu.submenu('frontend-right').children if item.visible recursive %}
+                        {% if item.prefix_divider %}
+                            <li class="divider">eeee</li>
+                        {% endif %}
+                        
+                        {%- if item.children -%}
+                        <li class='dropdown {{ 'active' if item.active }}'>
+                            <a href="{{ item.url }}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ item.text }}<span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                {{ loop(item.children) }}
+                            </ul>
+                        </li>
+                        {% else %}
+                        <li {{ 'class=active' if item.active }}>
+                            <a href="{{ item.url }}">{{ item.text }}</a>
+                        </li>
+                        {%- endif -%}
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
     <div class="container">
         {% block content %}
         {% endblock %}
