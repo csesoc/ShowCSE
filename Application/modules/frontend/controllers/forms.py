@@ -20,6 +20,7 @@ class LoginForm(LDAPLoginForm):
     def __init__(self, *args, **kwargs):
         super(LoginForm, self).__init__(*args, **kwargs)
         self.submit.label.text = "Login"
+        self.username.label.text = "UNSW zID <small>eg. z1234567</small>"
 
     def validate(self, *args, **kwargs):
         _username = self.username.data

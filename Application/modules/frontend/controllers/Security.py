@@ -16,7 +16,7 @@ class Security(FlaskView):
         logout_user()
         return redirect(url_for('.Home:index'))
 
-    @classy_menu_item('frontend-right.login', 'Login', order=1)
+    @classy_menu_item('frontend-right.login', 'Login', order=1, visible_when=show_menu)
     @route('/login', methods=['GET','POST'])
     def login(self):
         form = LoginForm()
