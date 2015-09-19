@@ -9,9 +9,10 @@
                     <h5>Log in with your UNSW student credentials</h5>
                     <form method="POST">
                         {{form.hidden_tag()}}
-                    {{ render_field(form.username)}}
-                    {{ render_field(form.password)}}
-                    {{ render_field(form.submit, class="btn btn-block btn-primary")}}
+                        {{ form.next() }}
+                        {{ render_field(form.username)}}
+                        {{ render_field(form.password)}}
+                        {{ render_field(form.submit, class="btn btn-block btn-primary")}}
                     </form>
                 </div>
             </div>

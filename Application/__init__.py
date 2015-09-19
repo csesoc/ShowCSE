@@ -48,6 +48,7 @@ app.config['LDAP_GET_USER_ATTRIBUTES'] = ['dn', 'cn', 'memberOf', 'givenName', '
 
 
 login_manager = LoginManager(app)              # Setup a Flask-Login Manager
+login_manager.login_view = "frontend.Security:login"
 ldap_manager = LDAP3LoginManager(app)          # Setup a LDAP3 Login Manager.
 
 from flask import render_template_string, redirect
