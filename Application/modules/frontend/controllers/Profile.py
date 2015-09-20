@@ -47,7 +47,6 @@ class Profile(FlaskView):
 
         if form.submit.data and form.validate_on_submit:
             #update the user's details
-
             current_user.website = form.website.data
             current_user.github_username = form.github_username.data
             current_user.email = form.email.data
