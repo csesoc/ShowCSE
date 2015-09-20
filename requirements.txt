@@ -9,3 +9,4 @@ flask-sqlalchemy
 pymysql
 flask-uploads
 Flask-Misaka
+speaklater

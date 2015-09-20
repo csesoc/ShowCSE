@@ -7,6 +7,13 @@ from Application.models import User
 from .forms import UserEditForm
 
 from Application import db
+from speaklater import make_lazy_string
+
+@make_lazy_string
+def account_text():
+    if current_user.is_authenticated:
+        return "Account ({})".format(current_user.fullname)
+    return "Account"
 
 def show_menu():
     return current_user.is_authenticated
@@ -14,7 +21,7 @@ def show_menu():
 class Profile(FlaskView):
     route_base = '/profile'
 
-    @classy_menu_item('frontend-right.account', 'Account', visible_when=show_menu, order=1)
+    @classy_menu_item('frontend-right.account', account_text, visible_when=show_menu, order=1)
     @classy_menu_item('frontend-right.account.profile', 'My Profile', order=0)
     @login_required
     def index(self):
