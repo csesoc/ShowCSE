@@ -65,6 +65,9 @@
                         <div class="form-group">
                             <label for="description" >Project Description</label>
                             {{ render_field(form.description, class="form-control") }}
+                            <span class="help-block">
+                                You can use markdown formatted text in your description.
+                            </span>
                         </div>
                         <div class="form-group">
                             <label>Images</label>
@@ -86,7 +89,7 @@
                         {{ render_field(form.download_link) }}
                         {{ render_field(form.website_link) }}
                         {{ render_field(form.demo_link) }}
-                        {{ render_field(form.tags) }}
+                        {# {{ render_field(form.tags) }} #}
                     </div>
                 </div>
             </div>

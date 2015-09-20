@@ -94,3 +94,6 @@ from .uploads import images
 from flask.ext.uploads import configure_uploads, patch_request_class
 patch_request_class(app)
 
+#Markdown
+from flask.ext.misaka import Misaka
+Misaka(app)
