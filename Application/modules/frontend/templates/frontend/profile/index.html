@@ -6,21 +6,21 @@
         {% if user != current_user %}
 
             {% if following %}  
-                <a href="{{ url_for('.Profile:unfollow', user_id=user.id) }}" class="btn btn-primary">Unfollow</a>
+                <a href="{{ url_for('.Profile:unfollow', user_id=user.zid) }}" class="btn btn-primary btn-sm">Unfollow</a>
             {% else %}
-                <a href="{{ url_for('.Profile:follow', user_id=user.id) }}" class="btn btn-primary">Follow</a>
+                <a href="{{ url_for('.Profile:follow', user_id=user.zid) }}" class="btn btn-primary btn-sm">Follow</a>
             {% endif %}
 
         {% else %}
-            <a href="{{ url_for('.Profile:edit')}}" class="btn btn-primary">Edit Profile</a>
+            <a href="{{ url_for('.Profile:edit')}}" class="btn btn-primary btn-sm">Edit Profile</a>
         {% endif %}
 
         {% if user.github_username %}
-            <a href="http://github.com/{{user.github_username}}" class="btn btn-primary" target="_blank">Github</a>
+            <a href="http://github.com/{{user.github_username}}" class="btn btn-primary btn-sm" target="_blank">Github</a>
         {% endif %}
 
         {% if user.website %}
-            <a href="http://{{user.website}}" class="btn btn-primary" target="_blank">Website</a>
+            <a href="http://{{user.website}}" class="btn btn-primary btn-sm" target="_blank">Website</a>
         {% endif %}
 
     </div>
@@ -51,7 +51,7 @@
                 {% if user.followers.count() %}
                     <ul class="list-group">
                         {% for follower in user.followers %}
-                            <li class="list-group-item"><a href="{{url_for('frontend.Profile:index', user_id=follower.zid)}}">{{ follower.fullname }}</a></li>
+                            <li class="list-group-item"><a href="{{url_for('frontend.Profile:user', user_id=follower.zid)}}">{{ follower.fullname }}</a></li>
                         {% endfor %}
                     </ul>
                 {% else %}
@@ -67,7 +67,7 @@
                 {% if user.following.count() %}
                     <ul class="list-group">
                         {% for follow in user.following %}
-                            <li class="list-group-item"><a href="{{url_for('frontend.Profile:index', user_id=follower.zid)}}">{{ follow.fullname }}</a></li>
+                            <li class="list-group-item"><a href="{{url_for('frontend.Profile:user', user_id=follow.zid)}}">{{ follow.fullname }}</a></li>
                         {% endfor %}
                     </ul>
                 {% else %}
@@ -98,9 +98,9 @@
                         <ul class="list-group">
                             {% for project in user.projects %}
                                 <li class="list-group-item">
-                                    <img src="{{ project.primary_image.url() if project.primary_image }}" />
+                                    <img src="{{ project.images[0].url() if project.images[0]}}" style="max-height:100px;float:left;padding-right:30px;padding-bottom:20px;">
                                     <h3><a href="{{ url_for('.Project:view_project', id=project.id) }}">{{ project.name }}</a></h3>
-                                    {{ project.description|markdown }}
+                                    {{ project.description|truncate(80)|markdown }}
                                 </li>
                             {% endfor %}                   
                         </ul>
