@@ -23,6 +23,7 @@
                 </ul>
             </div>
 
+            {% if project.download_link or project.website_link or project.demo_link %}
             <div class="panel panel-default">
                 <ul class="list-group">
                     {% if project.download_link %}
@@ -36,6 +37,7 @@
                     {% endif %}
                 </ul>
             </div>
+            {% endif %}
             {#
             <div class="panel panel-default">
                 <div class="panel-heading">Similar Projects</div>
@@ -49,9 +51,8 @@
             <div class="row">   
                 {% for image in project.images %}
                 <div class="col-xs-6 col-sm-3">
-                    <a href="#" class="thumbnail">
-                        {{ image }}
-                        <img src="http://baconmockup.com/300/300">
+                    <a href="{{ image.url() }}" target="_blank" class="thumbnail">
+                        <img src="{{ image.url() }}">
                     </a>
                 </div>
                 {% endfor %}

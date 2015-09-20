@@ -6,6 +6,7 @@ from .forms import SubmitProjectForm
 
 
 from Application.models.Project import Project as DBProject
+from Application.models.Project import ProjectImage
 from Application import db
 from Application.uploads import images
 import os
@@ -30,24 +31,34 @@ class Project(FlaskView):
     def submit(self):
         form = SubmitProjectForm()
         if form.validate_on_submit():
-            # Check valid files
 
+            project = DBProject(
+                name=form.name.data,
+                description=form.description.data,
+                download_link=form.download_link.data,
+                website_link=form.website_link.data,
+                demo_link=form.demo_link.data,
+            )
+
+
+            # Check valid files
             valid_files = True
             for file in request.files.getlist("images"):
                 filename, extension = os.path.splitext(file.filename)
                 if not images.extension_allowed(extension[1:].lower()):
                     flash("Image: '{}' is not an allowed file format.".format(file.filename), 'danger')
                     valid_files = False
+                    break
+                else:
+                    filename = images.save(file)
+
+                    image = ProjectImage(
+                        filename=filename,
+                        project=project,
+                    )
+                    db.session.add(image)
 
             if valid_files:
-
-                project = DBProject(
-                    name=form.name.data,
-                    description=form.description.data,
-                    download_link=form.download_link.data,
-                    website_link=form.website_link.data,
-                    demo_link=form.demo_link.data,
-                )
                 project.devs.append(current_user)
                 db.session.add(project)
                 db.session.commit()

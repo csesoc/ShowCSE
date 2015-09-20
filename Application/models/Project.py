@@ -21,6 +21,9 @@ class ProjectImage(db.Model):
     project = db.relationship('Project', foreign_keys=project_id, 
         backref=db.backref('images', lazy='dynamic'))
 
+    def url(self):
+        from Application.uploads import images
+        return images.url(self.filename)
 
 class Project(db.Model):
     __tablename__ = 'project'
