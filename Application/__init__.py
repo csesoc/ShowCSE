@@ -22,7 +22,9 @@ monkey_patch_all()
 Menu(app)
 
 #Setup db
-db = MongoAlchemy(app)
+from flask.ext.sqlalchemy import SQLAlchemy
+db = SQLAlchemy(app)
+
 
 # Register blueprints
 from Application.modules.frontend import frontend

@@ -12,24 +12,36 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Developers</div>
                 <ul class="list-group">
-                    <a href="#" class="list-group-item"><span class="glyphicon glyphicon-user"></span>&nbsp;CSESoc</a>
+                    {% for developer in project.devs %}
+                        <a href="{{ url_for('.Profile:user', user_id=developer.zid) }}" class="list-group-item"><span class="glyphicon glyphicon-user"></span>&nbsp;{{ developer.fullname }}</a>
+
+                    {% endfor %}
+
                 </ul>
+                {{ project.dev.dereference() }}
             </div>
 
             <div class="panel panel-default">
                 <ul class="list-group">
-                    <a href="#" class="list-group-item">Download From Github</a>
-                    <a href="#" class="list-group-item">Project Webpage</a>
-                    <a href="#" class="list-group-item">Demo</a>
+                    {% if project.download_link %}
+                        <a href="{{ project.download_link }}" class="list-group-item">Download</a>
+                    {% endif %}
+                    {% if project.website_link %}
+                        <a href="{{ project.website_link }}" class="list-group-item">Project Website</a>
+                    {% endif %}
+                    {% if project.demo_link %}
+                        <a href="{{ project.demo_link }}" class="list-group-item">Demo</a>
+                    {% endif %}
                 </ul>
             </div>
-
+            {#
             <div class="panel panel-default">
                 <div class="panel-heading">Similar Projects</div>
                 <ul class="list-group">
                     <a href="#" class="list-group-item">Project 1</a>
                 </ul>
             </div>
+             #}
         </div>
         <div class="col-xs-12 col-sm-9">
             <div class="row">

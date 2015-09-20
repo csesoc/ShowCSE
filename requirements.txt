@@ -3,6 +3,6 @@ flask
 git+https://github.com/nickw444/flask-ldap3-login.git
 flask-boilerplate-utils
 flask-boilerplate-buildutils
-Flask-MongoAlchemy # WebSKALEEEE
 flask-menu
 flask-login
+flask-sqlalchemy
