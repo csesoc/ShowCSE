@@ -54,7 +54,7 @@
     </script>
 {% endblock %}
 {% block content %}
-    <form method="POST" action="{{ url_for('.Project:submit') }}" enctype="multipart/form-data">
+    <form method="POST" enctype="multipart/form-data">
         {{ form.hidden_tag() }}
         <div class="panel panel-default">
             <div class="panel-heading">New Project</div>
@@ -69,6 +69,7 @@
                                 You can use markdown formatted text in your description.
                             </span>
                         </div>
+                        {% if not project %}
                         <div class="form-group">
                             <label>Images</label>
                             <div class="input-group fileupload">
@@ -84,6 +85,7 @@
                                 You can select more than one image.
                             </span>
                         </div>
+                        {% endif %}
                     </div>
                     <div class="col-xs-12 col-sm-4">
                         {{ render_field(form.download_link) }}
@@ -94,7 +96,12 @@
                 </div>
             </div>
             <div class="panel-footer text-right">
-                {{ render_field(form.submit, class="btn btn-primary") }}
+                {% if project %}
+                    {{ render_field(form.save, class="btn btn-primary") }}
+                {% else %}
+                    {{ render_field(form.submit, class="btn btn-primary") }}
+
+                {% endif %}
 
             </div>
         </div>

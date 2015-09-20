@@ -43,20 +43,20 @@ class Project(FlaskView):
     @route('/<int:id>/edit', methods=['GET','POST'], endpoint='Project:edit')
     def submit(self, id=None):
         project = None
-        if id:
+        if id is not None:
             project = DBProject.query.get_or_404(id)
 
         form = SubmitProjectForm(obj=project)
         if form.validate_on_submit():
-            if project is None:
-                project = DBProject(
-                    name=form.name.data,
-                    description=form.description.data,
-                    download_link=form.download_link.data,
-                    website_link=form.website_link.data,
-                    demo_link=form.demo_link.data,
-                )
 
+            if project is None:
+                project = DBProject()
+
+            project.description = form.description.data
+            project.download_link = form.download_link.data
+            project.website_link = form.website_link.data
+            project.demo_link = form.demo_link.data
+            project.name = form.name.data
 
             # Check valid files
             valid_files = True
@@ -77,10 +77,14 @@ class Project(FlaskView):
                         db.session.add(image)
 
             if valid_files:
-                project.devs.append(current_user)
-                db.session.add(project)
+                if id is None:
+                    db.session.add(project)
+                    project.devs.append(current_user)
+                    flash("Project '{}' created!".format(project.name), 'success')
+                else:    
+                    flash("Project '{}' updated!".format(project.name), 'success')
+                
                 db.session.commit()
-                flash("Project '{}' created!".format(project.name), 'success')
                 return redirect(url_for('.Project:view_project', id=project.id))
 
-        return render_template('.project/submit.html', form=form)
+        return render_template('.project/submit.html', form=form, project=project)
