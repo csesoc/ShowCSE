@@ -79,11 +79,13 @@
 
             <div class="panel panel-default">
                 <div class="panel-heading">About</div>
-                {% if user.about %}
-                    {{ user.about|markdown }}
-                {% else %}
-                    <p>This user has not filled out this section of their profile</p>
-                {% endif %}
+                <div class="panel-body">
+                    {% if user.about %}
+                        {{ user.about|markdown }}
+                    {% else %}
+                        <p>This user has not filled out this section of their profile</p>
+                    {% endif %}
+                </div>
             </div>
         
         </div><!-- /col -->
@@ -110,7 +112,7 @@
                 <div class="row">
                     <div class="panel panel-default panel-body">
                         <div class="col-xs-12">
-                            <h3>This User has no Projects</h3>                      
+                            <h3>This User has no Projects</h3>
                         </div>
                     </div>
                 </div>
