@@ -6,6 +6,8 @@ from flask_login import current_user, login_required
 from Application.models import User
 from .forms import UserEditForm
 
+from Application import db
+
 def show_menu():
     return current_user.is_authenticated
 
@@ -41,7 +43,8 @@ class Profile(FlaskView):
             current_user.email = form.email.data
             current_user.about = form.about.data
 
-            current_user.save()
+            db.session.add(current_user)
+            db.session.commit()
 
             flash('Sucessfully updated your details!', 'success')
             return redirect(url_for('.Profile:me'))
