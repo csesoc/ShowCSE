@@ -34,10 +34,8 @@ class Project(db.Model):
     
     description = db.Column(db.Text)
 
-    devs = db.relationship('User', secondary=project_users_devs, 
-        backref=db.backref('projects', lazy='dynamic'), lazy='dynamic')
-    stars = db.relationship('User', secondary=project_users_stars, 
-        backref=db.backref('stars', lazy='dynamic'), lazy='dynamic')
+    devs = db.relationship('User', secondary=project_users_devs,lazy='dynamic')
+    stars = db.relationship('User', secondary=project_users_stars, lazy='dynamic')
 
 
     # Images
