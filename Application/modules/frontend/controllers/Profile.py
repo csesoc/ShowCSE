@@ -31,7 +31,14 @@ class Profile(FlaskView):
     @login_required
     @route('/me/')
     def me(self):
-        return render_template('.profile/index.html', user=current_user)
+        user = current_user
+        projects = None
+        if user.projects.count():
+            projects = user.projects.order_by(Project.date_uploaded.desc())
+        following = False
+        if current_user.is_authenticated:
+            following = current_user.following.filter_by(zid=current_user.zid).count() != 0
+        return render_template('.profile/index.html', user=user, following=following, projects=projects)
 
     @route('/<string:user_id>/')
     def user(self, user_id):
