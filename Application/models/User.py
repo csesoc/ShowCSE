@@ -13,7 +13,6 @@ class User(db.Model, UserMixin):
     program = db.Column(db.String(255))
     admin = db.Column(db.Bool())
     about = db.Column(db.Text())
-)
     # followers = db.SetField(db.DocumentField("User"), default=None)
     # following = db.SetField(db.DocumentField("User"), default=None)
     def get_id(self):
