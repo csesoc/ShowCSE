@@ -1,9 +1,10 @@
 from flask.ext.classy import FlaskView, route
-from flask import render_template, redirect, url_for
+from flask import render_template, redirect, url_for, flash
 from flask_menu.classy import classy_menu_item
 from flask_login import current_user, login_required
 
 from Application.models import User
+from .forms import UserEditForm
 
 def show_menu():
     return current_user.is_authenticated
@@ -28,10 +29,22 @@ class Profile(FlaskView):
         return render_template('.profile/index.html', user=user)
 
     @login_required
-    @route('/edit/')
+    @route('/edit/', methods=['GET', 'POST'])
     def edit(self):
-        form = UserEditForm()
+        form = UserEditForm(obj=current_user)
 
         if form.submit.data and form.validate_on_submit:
             #update the user's details
-            pass
+
+            current_user.website = form.website.data
+            current_user.github_username = form.github_username.data
+            current_user.email = form.email.data
+            current_user.about = form.about.data
+
+            current_user.save()
+
+            flash('Sucessfully updated your details!', 'success')
+            return redirect(url_for('.Profile:me'))
+
+        return render_template(".profile/edit_user.html", is_form=True,
+            form=form, user=current_user)
