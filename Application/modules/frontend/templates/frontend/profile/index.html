@@ -97,14 +97,14 @@
                     <div class="panel panel-default panel-body">
                         <ul class="list-group">
                             {% for project in user.projects %}
-                                <li class="list-group-item">
+                                <a class="list-group-item" href="{{ url_for('.Project:view_project', id=project.id) }}">
                                     <div class="pull-right">
                                         <span class="glyphicon glyphicon-star-empty"></span>&nbsp;{{ project.stars.count() }}&nbsp;
                                     </div> 
                                     <img src="{{ project.images[0].url() if project.images[0]}}" style="max-height:100px;float:left;padding-right:30px;padding-bottom:20px;">
-                                    <h3><a href="{{ url_for('.Project:view_project', id=project.id) }}">{{ project.name }}</a></h3>
+                                    <h3>{{ project.name }}</h3>
                                     {{ project.description|truncate(80)|markdown }}
-                                </li>
+                                </a>
                             {% endfor %}                   
                         </ul>
                     </div>
