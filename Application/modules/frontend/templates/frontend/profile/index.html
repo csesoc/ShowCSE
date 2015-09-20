@@ -67,7 +67,7 @@
                 {% if user.following.count() %}
                     <ul class="list-group">
                         {% for follow in user.following %}
-                            <li class="list-group-item"><a href="{{url_for('frontend.Profile:index', user_id=follower.zid)}}">{{ follow.fullname }}</a></li>
+                            <li class="list-group-item"><a href="{{url_for('frontend.Profile:index', user_id=follow.zid)}}">{{ follow.fullname }}</a></li>
                         {% endfor %}
                     </ul>
                 {% else %}
