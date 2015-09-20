@@ -44,25 +44,26 @@ class Project(FlaskView):
             # Check valid files
             valid_files = True
             for file in request.files.getlist("images"):
-                filename, extension = os.path.splitext(file.filename)
-                if not images.extension_allowed(extension[1:].lower()):
-                    flash("Image: '{}' is not an allowed file format.".format(file.filename), 'danger')
-                    valid_files = False
-                    break
-                else:
-                    filename = images.save(file)
+                if file.filename:
+                    filename, extension = os.path.splitext(file.filename)
+                    if not images.extension_allowed(extension[1:].lower()):
+                        flash("Image: '{}' is not an allowed file format.".format(file.filename), 'danger')
+                        valid_files = False
+                        break
+                    else:
+                        filename = images.save(file)
 
-                    image = ProjectImage(
-                        filename=filename,
-                        project=project,
-                    )
-                    db.session.add(image)
+                        image = ProjectImage(
+                            filename=filename,
+                            project=project,
+                        )
+                        db.session.add(image)
 
             if valid_files:
                 project.devs.append(current_user)
                 db.session.add(project)
                 db.session.commit()
-
+                flash("Project '{}' created!".format(project.name), 'success')
                 return redirect(url_for('.Project:view_project', id=project.id))
 
         return render_template('.project/submit.html', form=form)
