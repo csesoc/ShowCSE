@@ -1,6 +1,6 @@
 from Application import db
 from .UTCDateTime import UTCDateTime, now
-
+from sqlalchemy.ext.hybrid import hybrid_property
 
 project_users_devs = db.Table('project_users_devs',
     db.Column('project_id', db.Integer, db.ForeignKey('project.id')),
@@ -39,8 +39,8 @@ class Project(db.Model):
 
 
     # Images
-    primary_image_id = db.Column(db.Integer, db.ForeignKey('project_image.id'))
-    primary_image = db.relationship('ProjectImage', foreign_keys=primary_image_id)
+    # primary_image_id = db.Column(db.Integer, db.ForeignKey('project_image.id'))
+    # primary_image = db.relationship('ProjectImage', foreign_keys=primary_image_id)
 
     # Links
     download_link = db.Column(db.String(255))
@@ -50,3 +50,18 @@ class Project(db.Model):
     #TODO
     tags = db.Column(db.String(255))
 
+
+    def get_contributors(self):
+        return ', '.join([x.fullname for x in self.devs])
+
+
+    @hybrid_property
+    def num_stars(self):
+        return self.stars.count()
+
+    @num_stars.expression
+    def _num_stars_expression(cls):
+        return (db.select([db.func.count(project_users_stars.c.project_id).label("num_stars")])
+                .where(project_users_stars.c.project_id == cls.id)
+                .label("total_stars")
+                )

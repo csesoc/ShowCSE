@@ -39,18 +39,23 @@ class Project(FlaskView):
 
     @classy_menu_item('frontend-right.submit', 'Submit', order=0)
     @login_required
-    @route('/submit/', methods=['GET','POST'])
-    def submit(self):
-        form = SubmitProjectForm()
-        if form.validate_on_submit():
+    @route('/submit/', methods=['GET','POST'], endpoint='Project:submit')
+    @route('/<int:id>/edit', methods=['GET','POST'], endpoint='Project:edit')
+    def submit(self, id=None):
+        project = None
+        if id:
+            project = DBProject.query.get_or_404(id)
 
-            project = DBProject(
-                name=form.name.data,
-                description=form.description.data,
-                download_link=form.download_link.data,
-                website_link=form.website_link.data,
-                demo_link=form.demo_link.data,
-            )
+        form = SubmitProjectForm(obj=project)
+        if form.validate_on_submit():
+            if project is None:
+                project = DBProject(
+                    name=form.name.data,
+                    description=form.description.data,
+                    download_link=form.download_link.data,
+                    website_link=form.website_link.data,
+                    demo_link=form.demo_link.data,
+                )
 
 
             # Check valid files

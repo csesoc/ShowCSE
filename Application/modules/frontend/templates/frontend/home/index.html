@@ -1,74 +1,67 @@
 {% extends "frontend/home/base.html" %}
 
 {% block content %}
-    <div class="pull-left">
-        <h2 style="margin-top:0px">ShowC.SE</h2>
-    </div>
-
-    <div class="clearfix"></div>
-
     <div class="row">
-        <div class="col-xs-3">
-            <!-- Favourites -->
+        <div class="col-xs-12 col-sm-8">
+            {% if showcase.count() %}
             <div class="panel panel-default">
-                <div class="panel-heading">Recent Projects</div>
-                <ul class="list-group">
-                    {% for i in range(3) %}
-                    <a href="#" class="list-group-item"><span class="glyphicon glyphicon-bookmark"></span>&nbsp;Project{{ i }} </a>
-                  {% endfor %}
-                </ul>
-            </div>
-
-            <!-- Favourites -->
-            <div class="panel panel-default">
-                <div class="panel-heading">Favourites or something</div>
-                <ul class="list-group">
-                    {% for i in range(3) %}
-                    <a href="#" class="list-group-item"><span class="glyphicon glyphicon-heart"></span>&nbsp;Fav{{ i }} </a>
-                  {% endfor %}
-                </ul>
-            </div>
-        </div>
-
-        <!-- Feed -->
-        <div class="col-xs-6">
-            {% for i in range(4) %}
-            <!-- Items -->
-            <div class="panel panel-default">
-            <div class="row" style="bottom-margin:20px">
-                <div class="col-xs-3" style="padding-right:0">1
+                <div class="panel-heading">
+                    <div>On ShowCase</div>
+                    <div><small>3 most recent projects with attached photos</small></div>
                 </div>
-                <div class="col-xs-9">
-                    <div class="row" style="margin-bottom:0">
-                        <div class="panel panel-header">
-                            <h4 class="panel-title">Project Title</h4>
+                <div class="panel-body">
+                    <div class="row showcase">
+                    {% for project in showcase %}
+                        <div class="col-sm-6 col-md-4">
+                            <a href="{{ url_for('.Project:view_project', id=project.id) }}" class="thumbnail">
+                                {% if project.images.first() %}
+                                <img src="{{ project.images.first().url() }}" />
+                                {% endif %}
+                                <div class="caption">
+                                    <div class="project-name">{{ project.name }}</div>
+                                    <div class="project-meta">{{ project.get_contributors() }}</div>
+                                </div>
+                            </a>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="panel panel-body">
-                            Project README
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-6" style="padding:0; margin:0">
-                            <div class="panel panel-footer">
-                                Project Github
-                            </div>
-                        </div>
-                        <div class="col-xs-6" style="padding:0; margin:0">
-                            <div class="panel panel-footer">
-                                User Profile
-                            </div>
-                        </div>
+                    {% endfor %}
                     </div>
                 </div>
             </div>
-            </div>
-            {% endfor %}
-        </div>
+            {% endif %}
 
-        <!-- Other Things -->
-        <div class="col-xs-3">
+            <div class="panel panel-default">
+                <div class="panel-heading">Project Directory (A-Z)</div>
+                <ul class="list-group project-directory">
+                    {% for project in projects %}
+                    <a class="list-group-item" href="{{ url_for('.Project:view_project', id=project.id) }}">
+                        <div class="pull-right">
+                            <span class="glyphicon glyphicon-star-empty"></span>&nbsp;{{ project.stars.count() }}&nbsp;
+                        </div> 
+                        <div class="project-title">{{ project.name }}</div>
+                        <div class="project-meta">{{ project.get_contributors() }}</div>
+                    </a>
+                    {% else %}
+                    <li class="text-center list-group-item">No projects were found.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-4">
+            <div class="panel panel-default">
+                <div class="panel-heading"><span class="glyphicon glyphicon-star"></span> Top Projects</div>
+                <ul class="list-group">
+                    {% for project in top_projects %}
+                    <a href="{{ url_for('.Project:view_project', id=project.id) }}" class="list-group-item">
+                        <div class="pull-right">
+                            <span class="glyphicon glyphicon-star-empty"></span>&nbsp;{{ project.num_stars }}&nbsp;
+                        </div> 
+                        {{ project.name }}
+                    </a>
+                    {% else %}
+                        <li class="text-center list-group-item">No projects were found.</li>
+                    {% endfor %}
+                </ul>
+            </div>
         </div>
     </div>
 
