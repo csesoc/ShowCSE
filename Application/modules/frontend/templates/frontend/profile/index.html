@@ -98,9 +98,9 @@
                         <ul class="list-group">
                             {% for project in user.projects %}
                                 <li class="list-group-item">
-                                    <img src="{{ project.primary_image.url() if project.primary_image }}" />
+                                    <img src="{{ project.images[0].url() if project.images[0]}}" style="max-height:100px;float:left;padding-right:30px;padding-bottom:20px;">
                                     <h3><a href="{{ url_for('.Project:view_project', id=project.id) }}">{{ project.name }}</a></h3>
-                                    {{ project.description|markdown }}
+                                    {{ project.description|truncate(80)|markdown }}
                                 </li>
                             {% endfor %}                   
                         </ul>
