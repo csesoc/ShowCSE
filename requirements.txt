@@ -6,3 +6,4 @@ flask-boilerplate-buildutils
 flask-menu
 flask-login
 flask-sqlalchemy
+pymysql
