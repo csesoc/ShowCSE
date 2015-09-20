@@ -1,15 +1,26 @@
 {% extends "frontend/project/base.html" %}
 
 {% block content %}
-    <div class="pull-right">
-        {% if current_user in project.devs.all() %}
-            <a href="#" class="btn btn-primary">Edit</a>
-        {% endif %}
-        <a href="#" class="btn btn-grey">
-            
-            <span class="glyphicon glyphicon-star-empty"></span>&nbsp;{{ project.stars.count() }}
-        </a>
-    </div>
+    <form method="POST">
+        {{ star_form.hidden_tag() }}
+        <div class="pull-right">
+            {% if current_user in project.devs.all() %}
+                <a href="#" class="btn btn-primary btn-sm">Edit</a>
+            {% endif %}
+
+            <div class="btn-group" role="group" aria-label="...">
+              <button type="button" disabled class="btn btn-default btn-sm">{{ project.stars.count() }}</button>
+              <button type="submit" name="submit" class="btn btn-grey btn-sm">
+                    {% if current_user in project.stars.all() %}
+                        <span class="glyphicon glyphicon-star"></span>&nbsp;Unstar
+                    {% else %}
+                        <span class="glyphicon glyphicon-star-empty"></span>&nbsp;Star
+                    {% endif %}
+                </button>
+            </div>
+
+        </div>
+    </form>
     <h2 style="margin-top:0px;">{{ project.name }}</h2>
     <div class="clearfix"></div>
     <div class="row">
@@ -27,13 +38,13 @@
             <div class="panel panel-default">
                 <ul class="list-group">
                     {% if project.download_link %}
-                        <a href="{{ project.download_link }}" class="list-group-item">Download</a>
+                        <a target="_blank" href="{{ project.download_link }}" class="list-group-item">Download</a>
                     {% endif %}
                     {% if project.website_link %}
-                        <a href="{{ project.website_link }}" class="list-group-item">Project Website</a>
+                        <a target="_blank" href="{{ project.website_link }}" class="list-group-item">Project Website</a>
                     {% endif %}
                     {% if project.demo_link %}
-                        <a href="{{ project.demo_link }}" class="list-group-item">Demo</a>
+                        <a target="_blank" href="{{ project.demo_link }}" class="list-group-item">Demo</a>
                     {% endif %}
                 </ul>
             </div>

@@ -2,7 +2,7 @@ from flask.ext.classy import FlaskView, route
 from flask import render_template, request, redirect, url_for, abort, flash
 from flask_menu.classy import classy_menu_item
 from flask_login import login_required, current_user
-from .forms import SubmitProjectForm
+from .forms import SubmitProjectForm, StarForm
 
 
 from Application.models.Project import Project as DBProject
@@ -18,11 +18,23 @@ class Project(FlaskView):
         # return render_template('.project/index.html')
         abort(404)
 
-    @route('/<int:id>/')
+    @route('/<int:id>/', methods=["GET", "POST"])
     def view_project(self, id):
         project = DBProject.query.get_or_404(id)
-        return render_template('.project/view_project.html', project=project)
+        star_form = StarForm()
+        if star_form.validate_on_submit():
+            if current_user in project.stars.all():
+                # remove user from starsa
+                project.stars.remove(current_user)
+            else:
+                # add.
+                project.stars.append(current_user)
 
+            db.session.commit()
+
+        
+        return render_template('.project/view_project.html', project=project, 
+            star_form=star_form)
 
 
     @classy_menu_item('frontend-right.submit', 'Submit', order=0)

@@ -27,13 +27,22 @@ class LoginForm(LDAPLoginForm):
 
 
 class SubmitProjectForm(Form):
-    name = TextField("Project Name")
+    name = TextField("Project Name", [validators.required()])
     description = TextAreaField("Project Description")
     submit = SubmitField("Add Project")
 
-    download_link = TextField("Download Link", description="(optional)")
-    website_link = TextField("Website Link", description="(optional) A link to a website about your project")
-    demo_link = TextField("Demo Link", description="(optional) A link to a working demo of your project")
+    download_link = TextField("Download Link", description="(optional) eg. http://mywebsite.com", 
+        validators=[
+        validators.optional(), 
+        validators.Regexp(r'http[s]?://[^\"\']', message="Not a valid URL")])
+    website_link = TextField("Website Link", description="(optional) A link to a website about your project. eg. http://mywebsite.com",
+        validators=[
+            validators.optional(), 
+            validators.Regexp(r'http[s]?://[^\"\']', message="Not a valid URL")])
+    demo_link = TextField("Demo Link", description="(optional) A link to a working demo of your project. eg. http://mywebsite.com",
+        validators=[
+            validators.optional(), 
+            validators.Regexp(r'http[s]?://[^\"\']', message="Not a valid URL")])
 
     contributors = TextField("Contributors (zID's)")
     tags = TextField("Tags", description="Space separated")
@@ -44,3 +53,7 @@ class UserEditForm(Form):
     email = TextField("Your email", description="Never shown publiclly")
     about = TextAreaField("About you", description="Tell us about yourself!")
     submit = SubmitField("Save changes")
+
+class StarForm(Form):
+    submit = SubmitField("Star")
+
