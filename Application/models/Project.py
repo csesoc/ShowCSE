@@ -26,7 +26,7 @@ class Project(db.Model):
     __tablename__ = 'project'
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(255), primary_key=True)
+    name = db.Column(db.String(255))
     date_uploaded = db.Column(UTCDateTime(), default=now)
     
     description = db.Column(db.Text)

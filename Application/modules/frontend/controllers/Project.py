@@ -8,6 +8,7 @@ import re
 slug_regex_filter = re.compile(r'[^0-9a-z\s\-]')
 
 from Application.models.Project import Project as DBProject
+from Application import db
 
 class Project(FlaskView):
     route_base = '/project'
@@ -16,9 +17,9 @@ class Project(FlaskView):
         # return render_template('.project/index.html')
         abort(404)
 
-    @route('/<string:slug>/')
-    def view_project(self, slug):
-        project = DBProject.query.filter_by(id=slug).first_or_404()
+    @route('/<int:id>/')
+    def view_project(self, id):
+        project = DBProject.query.get_or_404(id)
         return render_template('.project/view_project.html', project=project)
 
 
@@ -29,31 +30,17 @@ class Project(FlaskView):
     def submit(self):
         form = SubmitProjectForm()
         if form.validate_on_submit():
-            slug = form.name.data.lower()
-            slug = slug_regex_filter.sub('', slug).strip()
-            slug = slug.replace(' ', '-')
+            project = DBProject(
+                name=form.name.data,
+                description=form.description.data,
+                download_link=form.download_link.data,
+                website_link=form.website_link.data,
+                demo_link=form.demo_link.data,
+            )
+            project.devs.append(current_user)
+            db.session.add(project)
+            db.session.commit()
 
-            existing_proj = DBProject.query.filter_by(id=slug).first()
-            if existing_proj is not None:
-                form.name.errors.append('A project with this name already exists. Please try another')
-            else:
-                project = DBProject(
-                    id=slug,
-                    name=form.name.data,
-                    description=form.description.data,
-                    download_link=form.download_link.data,
-                    website_link=form.website_link.data,
-                    demo_link=form.demo_link.data,
-                )
-                print(current_user._get_current_object())
-                # project.devs.add(current_user._get_current_object())
-                # project.save()
-                project.dev = current_user._get_current_object().mongo_id
-                project.save()
-
-                # current_user.projects.add(project)
-                # current_user.save()
-
-                return redirect(url_for('.Project:view_project', slug=slug))
+            return redirect(url_for('.Project:view_project', id=project.id))
 
         return render_template('.project/submit.html', form=form)
