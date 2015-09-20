@@ -3,9 +3,10 @@ from Application import db
 class Project(db.Document):
     id = db.IntField(required=True)
     name = db.StringField(required=True)
+    description = db.StringField(required=True, default=None)
+
     date_uploaded = db.CreatedField()
     primary_image = db.AnythingField(required=False)
-    description = db.StringField(required=True, default=None)
     download_link = db.StringField(required=False, default=None)
     website_link = db.StringField(required=False, default=None)
     demo_link = db.StringField(required=False, default=None)
