@@ -37,3 +37,10 @@ class SubmitProjectForm(Form):
 
     contributors = TextField("Contributors (zID's)")
     tags = TextField("Tags", description="Space separated")
+
+class UserEditForm(Form):
+    website = TextField("Your Website")
+    github_username = TextField("Your Github Username")
+    email = TextField("Your email", description="Never shown publiclly")
+    about = TextAreaField("About you", description="Tell us about yourself!")
+    submit = SubmitField("Save changes")
