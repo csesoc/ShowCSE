@@ -1,11 +1,13 @@
 from flask.ext.classy import FlaskView, route
-from flask import render_template, request
+from flask import render_template, request, redirect, url_for
 from flask_menu.classy import classy_menu_item
 from flask_login import login_required
 from .forms import SubmitProjectForm
 
 import re
-slug_regex_filter = re.compile(r'[^a-z\s\-]')
+slug_regex_filter = re.compile(r'[^0-9a-z\s\-]')
+
+from Application.models.Project import Project as DBProject
 
 class Project(FlaskView):
     route_base = '/project'
@@ -29,11 +31,11 @@ class Project(FlaskView):
             slug = slug_regex_filter.sub('', slug).strip()
             slug = slug.replace(' ', '-')
 
-            existing_proj = Project.query.filter_by(id=slug)
+            existing_proj = DBProject.query.filter_by(id=slug).first()
             if existing_proj is not None:
                 form.name.errors.append('A project with this name already exists. Please try another')
             else:
-                project = Project(
+                project = DBProject(
                     id=slug,
                     name=form.name.data,
                     description=form.description.data,
