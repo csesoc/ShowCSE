@@ -7,3 +7,4 @@ flask-menu
 flask-login
 flask-sqlalchemy
 pymysql
+flask-uploads

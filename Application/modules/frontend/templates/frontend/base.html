@@ -57,7 +57,13 @@
             </div>
         </div>
     </div>
+
     <div class="container">
+        {% for class, message in get_flashed_messages(with_categories=true) %}
+            {% set _class = class %}
+            {% set class = 'error' if class == 'danger' else class %}
+            <div class="alert alert-{{ _class }}" role="alert"><strong>{{ class|title }}:</strong>&nbsp;{{ message }}</div>
+        {% endfor %}
         {% block content %}
         {% endblock %}
     
@@ -68,4 +74,5 @@
             </div>
         </footer>
     </div>
+
 {% endblock %}

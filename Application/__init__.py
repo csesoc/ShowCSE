@@ -89,3 +89,9 @@ def save_user(dn, username, data, memberships):
     return user
 
 db.create_all()
+
+# Uploads
+from .uploads import images
+from flask.ext.uploads import configure_uploads, patch_request_class
+patch_request_class(app)
+
