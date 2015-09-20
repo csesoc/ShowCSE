@@ -5,7 +5,8 @@
     <div class="pull-right">
         {% if user != current_user %}
             <!-- TODO: figure out if users are following each other -->
-            <a href="#" class="btn btn-primary">Follow</a>
+            <a href="{{ url_for('.Profile:follow', user_id=user.id) }}" class="btn btn-primary">Follow</a>
+            <a href="{{ url_for('.Profile:unfollow', user_id=user.id) }}" class="btn btn-primary">Unfollow</a>
         {% else %}
             <a href="{{ url_for('.Profile:edit')}}" class="btn btn-primary">Edit Profile</a>
         {% endif %}
@@ -69,41 +70,36 @@
                     </div>
                 {% endif %}
             </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">About</div>
+                {% if user.about %}
+                    {{ user.about|markdown }}
+                {% else %}
+                    <p>This user has not filled out this section of their profile</p>
+                {% endif %}
+            </div>
         
         </div><!-- /col -->
 
 
         <div class="col-xs-12 col-sm-9">
-            
-            <!-- About section -->
-            <div class="row">
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        <h3>About</h3>
-                        {% if user.about %}
-                            {{ user.about|markdown }}
-                        {% else %}
-                            <p>This user has not filled out this section of their profile</p>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
 
             <!-- Projects section -->
             {% if user.projects.count() %}
-                {% for project in user.projects %}
-                    <div class="row">
-                        <div class="panel panel-default panel-body">
-                            <div class="col-xs-12 col-sm-4">
-                                <img src="{{ project.primary_image.url() if project.primary_image }}" />
-                            </div>
-                            <div class="col-xs-12 col-sm-8">    
-                                <h3>{{ project.name }}</h3>
-                                {{ project.description }}
-                            </div>
-                        </div>
+                <div class="row">
+                    <div class="panel panel-default panel-body">
+                        <ul class="list-group">
+                            {% for project in user.projects %}
+                                <li class="list-group-item">
+                                    <img src="{{ project.primary_image.url() if project.primary_image }}" />
+                                    <h3><a href="{{ url_for('.Project:view_project', id=project.id) }}">{{ project.name }}</a></h3>
+                                    {{ project.description|markdown }}
+                                </li>
+                            {% endfor %}                   
+                        </ul>
                     </div>
-                {% endfor %}
+                </div>
             {% else %}
                 <div class="row">
                     <div class="panel panel-default panel-body">
