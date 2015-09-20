@@ -6,9 +6,9 @@
         {% if user != current_user %}
 
             {% if following %}  
-                <a href="{{ url_for('.Profile:unfollow', user_id=user.id) }}" class="btn btn-primary">Unfollow</a>
+                <a href="{{ url_for('.Profile:unfollow', user_id=user.zid) }}" class="btn btn-primary">Unfollow</a>
             {% else %}
-                <a href="{{ url_for('.Profile:follow', user_id=user.id) }}" class="btn btn-primary">Follow</a>
+                <a href="{{ url_for('.Profile:follow', user_id=user.zid) }}" class="btn btn-primary">Follow</a>
             {% endif %}
 
         {% else %}

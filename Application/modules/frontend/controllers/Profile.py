@@ -35,7 +35,9 @@ class Profile(FlaskView):
     @route('/<string:user_id>/')
     def user(self, user_id):
         user = User.query.filter(User.zid == user_id).first_or_404()
-        following = True
+        following = False
+        if current_user.is_authenticated:
+            following = current_user.following.filter_by(zid=user_id).count() != 0
         return render_template('.profile/index.html', user=user, following=following)
 
     @login_required
@@ -66,13 +68,21 @@ class Profile(FlaskView):
 
         following = current_user.following.filter_by(zid=user_id).count()
 
+        if user_id == current_user.zid:
+            flash("Error: you cannot follow yourself", 'danger')
+            return redirect(url_for('.Profile:user', user_id=user_id))
+
         if following:
-            flash("Error: you already follow this user", 'error')
+            flash("Error: you already follow this user", 'danger')
             return redirect(url_for('.Profile:user', user_id=user_id))
 
         #Add follower relationship here
+        followee = User.query.get_or_404(user_id)
+        current_user.following.append(followee)
+        db.session.add(current_user)
+        db.session.commit()
 
-        flash("User followed successfully")
+        flash("User followed successfully", 'success')
         return redirect(url_for('.Profile:user', user_id=user_id))
 
     @login_required
@@ -81,12 +91,19 @@ class Profile(FlaskView):
 
         following = current_user.following.filter_by(zid=user_id).count()
 
+        if user_id == current_user.zid:
+            flash("Error: you cannot unfollow yourself", 'danger')
+            return redirect(url_for('.Profile:user', user_id=user_id))
+
         if following:
-            #Remove relationship here            
-            flash("User unfollowed successfully")
+            #Remove relationship here
+            followee = User.query.get_or_404(user_id)
+            current_user.following.remove(followee)
+            db.session.add(current_user)
+            db.session.commit()
+            flash("User unfollowed successfully", 'success')
             return redirect(url_for('.Profile:user', user_id=user_id))
 
 
-        flash("Error: you don't follow this user", 'error')
+        flash("Error: you don't follow this user", 'danger')
         return redirect(url_for('.Profile:user', user_id=user_id))
-
