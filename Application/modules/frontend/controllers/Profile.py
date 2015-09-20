@@ -1,5 +1,5 @@
 from flask.ext.classy import FlaskView, route
-from flask import render_template, redirect, url_for
+from flask import render_template, redirect, url_for, flash
 from flask_menu.classy import classy_menu_item
 from flask_login import current_user, login_required
 
@@ -31,12 +31,13 @@ class Profile(FlaskView):
     @login_required
     @route('/edit/', methods=['GET', 'POST'])
     def edit(self):
-        form = UserEditForm()
+        form = UserEditForm(obj=current_user)
 
         if form.submit.data and form.validate_on_submit:
             #update the user's details
+
             current_user.website = form.website.data
-            current_user.github = form.github.data
+            current_user.github_username = form.github_username.data
             current_user.email = form.email.data
             current_user.about = form.about.data
 
@@ -45,5 +46,5 @@ class Profile(FlaskView):
             flash('Sucessfully updated your details!', 'success')
             return redirect(url_for('.Profile:me'))
 
-        return render_template("edit_user.html", is_form=True,
+        return render_template(".profile/edit_user.html", is_form=True,
             form=form, user=current_user)

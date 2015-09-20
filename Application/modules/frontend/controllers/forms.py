@@ -40,7 +40,7 @@ class SubmitProjectForm(Form):
 
 class UserEditForm(Form):
     website = TextField("Your Website")
-    github = TextField("Your Github Username")
+    github_username = TextField("Your Github Username")
     email = TextField("Your email", description="Never shown publiclly")
     about = TextAreaField("About you", description="Tell us about yourself!")
     submit = SubmitField("Save changes")
