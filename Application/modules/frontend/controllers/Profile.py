@@ -35,7 +35,8 @@ class Profile(FlaskView):
     @route('/<string:user_id>/')
     def user(self, user_id):
         user = User.query.filter(User.zid == user_id).first_or_404()
-        return render_template('.profile/index.html', user=user)
+        following = True
+        return render_template('.profile/index.html', user=user, following=following)
 
     @login_required
     @route('/edit/', methods=['GET', 'POST'])
@@ -63,7 +64,13 @@ class Profile(FlaskView):
     @route('/follow/<string:user_id>/')
     def follow(self, user_id):
 
-        #TODO: follow the userß
+        following = current_user.following.filter_by(zid=user_id).count()
+
+        if following:
+            flash("Error: you already follow this user", 'error')
+            return redirect(url_for('.Profile:user', user_id=user_id))
+
+        #Add follower relationship here
 
         flash("User followed successfully")
         return redirect(url_for('.Profile:user', user_id=user_id))
@@ -72,7 +79,14 @@ class Profile(FlaskView):
     @route('/unfollow/<string:user_id>/')
     def unfollow(self, user_id):
 
-        #TODO: unfollow the userß
+        following = current_user.following.filter_by(zid=user_id).count()
 
-        flash("User unfollowed successfully")
+        if following:
+            #Remove relationship here            
+            flash("User unfollowed successfully")
+            return redirect(url_for('.Profile:user', user_id=user_id))
+
+
+        flash("Error: you don't follow this user", 'error')
         return redirect(url_for('.Profile:user', user_id=user_id))
+

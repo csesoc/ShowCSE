@@ -4,15 +4,21 @@
 
     <div class="pull-right">
         {% if user != current_user %}
-            <!-- TODO: figure out if users are following each other -->
-            <a href="{{ url_for('.Profile:follow', user_id=user.id) }}" class="btn btn-primary">Follow</a>
-            <a href="{{ url_for('.Profile:unfollow', user_id=user.id) }}" class="btn btn-primary">Unfollow</a>
+
+            {% if following %}  
+                <a href="{{ url_for('.Profile:unfollow', user_id=user.id) }}" class="btn btn-primary">Unfollow</a>
+            {% else %}
+                <a href="{{ url_for('.Profile:follow', user_id=user.id) }}" class="btn btn-primary">Follow</a>
+            {% endif %}
+
         {% else %}
             <a href="{{ url_for('.Profile:edit')}}" class="btn btn-primary">Edit Profile</a>
         {% endif %}
+
         {% if user.github_username %}
             <a href="http://github.com/{{user.github_username}}" class="btn btn-primary" target="_blank">Github</a>
         {% endif %}
+
         {% if user.website %}
             <a href="http://{{user.website}}" class="btn btn-primary" target="_blank">Website</a>
         {% endif %}
