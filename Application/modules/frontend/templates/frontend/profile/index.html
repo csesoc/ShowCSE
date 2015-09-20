@@ -96,15 +96,15 @@
             <!-- Projects section -->
             {% if user.projects.count() %}
                 <div class="row">
-                    <div class="panel panel-default panel-body">
+                    <div class="panel panel-default">
                         <ul class="list-group">
                             {% for project in user.projects %}
-                                <a class="list-group-item" href="{{ url_for('.Project:view_project', id=project.id) }}">
+                                <a class="list-group-item" style="padding-bottom:30px;" href="{{ url_for('.Project:view_project', id=project.id) }}">
                                     <div class="pull-right">
                                         <span class="glyphicon glyphicon-star-empty"></span>&nbsp;{{ project.stars.count() }}&nbsp;
                                     </div> 
                                     <img src="{{ project.images[0].url() if project.images[0]}}" style="max-height:100px;float:left;padding-right:30px;padding-bottom:20px;">
-                                    <h3>{{ project.name }}</h3>
+                                    <div style="font-size:1.6em;">{{ project.name }}</div>
                                     {{ project.description|truncate(80)|markdown }}
                                 </a>
                             {% endfor %}                   
