@@ -24,7 +24,6 @@ Menu(app)
 #Setup db
 from flask.ext.sqlalchemy import SQLAlchemy
 db = SQLAlchemy(app)
-db.create_all()
 
 # Register blueprints
 from Application.modules.frontend import frontend
@@ -88,3 +87,5 @@ def save_user(dn, username, data, memberships):
     user.program = "??"
     db.session.commit()
     return user
+
+db.create_all()
