@@ -48,9 +48,12 @@ class SubmitProjectForm(Form):
     tags = TextField("Tags", description="Space separated")
 
 class UserEditForm(Form):
-    website = TextField("Your Website")
-    github_username = TextField("Your Github Username")
-    email = TextField("Your email", description="Never shown publiclly")
+    website = TextField("Your Website", description="(optional) A link to a website about your project. eg. http://mywebsite.com",
+        validators=[
+            validators.optional(), 
+            validators.Regexp(r'http[s]?://[^\"\']', message="Not a valid URL")])
+    github_username = TextField("Your Github Username", description="(optional)")
+    email = TextField("Your email", description="Never shown publiclly", validators=[validators.required()])
     about = TextAreaField("About you", description="Tell us about yourself!")
     submit = SubmitField("Save changes")
 
