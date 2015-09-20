@@ -26,3 +26,11 @@ class Profile(FlaskView):
     def user(self, user_id):
         user = User.query.filter(User.zid == user_id).first_or_404()
         return render_template('.profile/index.html', user=user)
+
+    @login_required
+    @route('/edit/')
+    def edit(self):
+        form = UserEditForm()
+
+        if form.submit.data and form.validate_on_submit:
+            #update the user's details
