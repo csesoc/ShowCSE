@@ -25,7 +25,7 @@
             <!-- Starred projects section -->
             <div class="panel panel-default">
                 <div class="panel-heading">Starred Projects</div>
-                    {% if user.stars  %}
+                    {% if user.stars.count()  %}
                         <ul class="list-group">
                             {% for star in user.stars %}
                                 <li class="list-item"><a>{{ star.name }}</a></li>
@@ -42,7 +42,7 @@
             <!-- Followers section -->
             <div class="panel panel-default">
                 <div class="panel-heading">Followers</div>
-                {% if user.followers %}
+                {% if user.followers.count() %}
                     <ul class="list-group">
                         {% for follower in user.followers %}
                             <li class="list-group-item"><a href="{{url_for('frontend.Profile:index', user_id=follower.zid)}}">{{ follower.fullname }}</a></li>
@@ -58,7 +58,7 @@
             <!-- Following section -->
             <div class="panel panel-default">
                 <div class="panel-heading">Following</div>
-                {% if user.following %}
+                {% if user.following.count() %}
                     <ul class="list-group">
                         {% for follow in user.following %}
                             <li class="list-group-item"><a href="{{url_for('frontend.Profile:index', user_id=follower.zid)}}">{{ follow.fullname }}</a></li>
@@ -91,7 +91,7 @@
             </div>
 
             <!-- Projects section -->
-            {% if user.projects %}
+            {% if user.projects.count() %}
                 {% for project in user.projects %}
                     <div class="row">
                         <div class="panel panel-default panel-body">

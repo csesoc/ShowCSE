@@ -51,3 +51,21 @@ class Profile(FlaskView):
 
         return render_template(".profile/edit_user.html", is_form=True,
             form=form, user=current_user)
+
+    @login_required
+    @route('/follow/<string:user_id>/')
+    def follow(self, user_id):
+
+        #TODO: follow the userß
+
+        flash("User followed successfully")
+        return redirect(url_for('.Profile:user', user_id=user_id))
+
+    @login_required
+    @route('/unfollow/<string:user_id>/')
+    def unfollow(self, user_id):
+
+        #TODO: unfollow the userß
+
+        flash("User unfollowed successfully")
+        return redirect(url_for('.Profile:user', user_id=user_id))
