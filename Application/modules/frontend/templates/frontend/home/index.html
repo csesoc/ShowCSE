@@ -1,6 +1,12 @@
 {% extends "frontend/home/base.html" %}
 
 {% block content %}
+    <div class="pull-left">
+        <h2 style="margin-top:0px">ShowC.SE</h2>
+    </div>
+
+    <div class="clearfix"></div>
+
     <div class="row">
         <div class="col-xs-3">
             <!-- Favourites -->
@@ -26,22 +32,39 @@
 
         <!-- Feed -->
         <div class="col-xs-6">
+            {% for i in range(4) %}
             <!-- Items -->
             <div class="panel panel-default">
-                <!-- IMAGE -->
-                <div class="col-xs-2">
-                        <a href="#" class="thumbnail">
-                            <img src="http://lorempixel.com/60/60/cats"></img>
-                        </a>
+            <div class="row" style="bottom-margin:20px">
+                <div class="col-xs-3" style="padding-right:0">1
                 </div>
-
-                <!-- Info -->
-                <div class="col-xs-4">
-                    <div class="panel panel-heading">Project Title</div>
-                    <div class="panel panel-body">somebody</div>
-                    <div class="panel panel-footer">feet</div>
+                <div class="col-xs-9">
+                    <div class="row" style="margin-bottom:0">
+                        <div class="panel panel-header">
+                            <h4 class="panel-title">Project Title</h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="panel panel-body">
+                            Project README
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6" style="padding:0; margin:0">
+                            <div class="panel panel-footer">
+                                Project Github
+                            </div>
+                        </div>
+                        <div class="col-xs-6" style="padding:0; margin:0">
+                            <div class="panel panel-footer">
+                                User Profile
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
+            </div>
+            {% endfor %}
         </div>
 
         <!-- Other Things -->
