@@ -3,21 +3,21 @@ from flask_login import UserMixin
 
 from .Project import Project
 
-class User(db.Document, UserMixin):
-    dn = db.StringField()
-    zid = db.StringField(required=True)
-    fullname = db.StringField(required=True)
-    website = db.StringField(required=False, default=None)
-    github_username = db.StringField(required=False, default=None)
-    email = db.StringField(required=False, default=None)
+class User(db.Model, UserMixin):
+    dn = db.Column(db.String(255))
+    zid = db.Column(db.String(9))
+    fullname = db.Column(db.String(50))
+    website = db.Column(db.String(255))
+    github_username = db.Column(db.String(255))
+    email = db.Column(db.String(255))
+    program = db.Column(db.String(255))
+    admin = db.Column(db.Bool())
+    about = db.Column(db.Text())
     
-    program = db.StringField(required=False, default=None)
-    admin = db.BoolField(default=False)
-    projects = db.SetField(db.DocumentField(Project), default=None)
-    about = db.StringField(required=False, default=None)
-    stars = db.SetField(db.DocumentField(Project), default=None)
-    followers = db.SetField(db.DocumentField("User"), default=None)
-    following = db.SetField(db.DocumentField("User"), default=None)
+    # projects = db.SetField(db.DocumentField(Project), default=None)
+    # stars = db.SetField(db.DocumentField(Project), default=None)
+    # followers = db.SetField(db.DocumentField("User"), default=None)
+    # following = db.SetField(db.DocumentField("User"), default=None)
 
     def get_id(self):
         return self.zid
