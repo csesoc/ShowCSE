@@ -28,8 +28,7 @@
                     {% if user.stars.count()  %}
                         <ul class="list-group">
                             {% for star in user.stars %}
-                                <li class="list-item"><a>{{ star.name }}</a></li>
-                                <!-- TODO: URL endpoint for individual project -->
+                                <li class="list-item"><a href="{{ url_for('.Project:view_project', id=star.id) }}">{{ star.name }}</a></li>
                             {% endfor %}
                         </ul>
                     {% else %}
@@ -82,7 +81,7 @@
                     <div class="panel-body">
                         <h3>About</h3>
                         {% if user.about %}
-                            {{ user.about }}
+                            {{ user.about|markdown }}
                         {% else %}
                             <p>This user has not filled out this section of their profile</p>
                         {% endif %}
@@ -96,7 +95,7 @@
                     <div class="row">
                         <div class="panel panel-default panel-body">
                             <div class="col-xs-12 col-sm-4">
-                                <img src="http://baconmockup.com/200/200/" />
+                                <img src="{{ project.primary_image.url() if project.primary_image }}" />
                             </div>
                             <div class="col-xs-12 col-sm-8">    
                                 <h3>{{ project.name }}</h3>
