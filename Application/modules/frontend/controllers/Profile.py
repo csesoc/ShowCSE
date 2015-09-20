@@ -34,3 +34,4 @@ class Profile(FlaskView):
 
         if form.submit.data and form.validate_on_submit:
             #update the user's details
+            pass
