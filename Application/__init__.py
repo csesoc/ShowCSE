@@ -1,7 +1,6 @@
 from flask import Flask
 from flask_boilerplate_utils import Boilerplate
 from flask_menu import Menu
-from flask.ext.mongoalchemy import MongoAlchemy
 
 app = Flask(__name__)
 
