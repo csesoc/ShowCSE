@@ -35,7 +35,7 @@
                     {% if user.stars.count()  %}
                         <ul class="list-group">
                             {% for star in user.stars %}
-                                <li class="list-item"><a href="{{ url_for('.Project:view_project', id=star.id) }}">{{ star.name }}</a></li>
+                                <li class="list-group-item"><a href="{{ url_for('.Project:view_project', id=star.id) }}">{{ star.name }}</a></li>
                             {% endfor %}
                         </ul>
                     {% else %}
