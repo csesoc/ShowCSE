@@ -13,7 +13,7 @@ class Home(FlaskView):
     @classy_menu_item('frontend.home', 'Home', order=0)
     def index(self):
         projects = Project.query.filter(Project.name != None).order_by(Project.name.asc())
-        showcase = Project.query.join(ProjectImage).order_by(Project.id.desc()).limit(3)
+        showcase = Project.query.join(ProjectImage).order_by(Project.id.desc()) #TODO Implement limit lol
         top_projects = Project.query.order_by(Project.num_stars.desc()).limit(10)
 
         # following_subquery = db.session.query(users_followers).filter_by(
