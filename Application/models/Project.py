@@ -65,3 +65,17 @@ class Project(db.Model):
                 .where(project_users_stars.c.project_id == cls.id)
                 .label("total_stars")
                 )
+
+    @hybrid_property
+    def num_images(self):
+        return self.images.count()
+
+    @num_images.expression
+    def _num_images_expression(cls):
+        return (db.select(
+                [db.func.count(ProjectImage.project_id).label('num_images')]
+            ).where(
+                ProjectImage.project_id == cls.id
+            ).label('total_images'))
+
+

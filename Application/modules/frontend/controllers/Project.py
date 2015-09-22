@@ -90,4 +90,23 @@ class Project(FlaskView):
                 db.session.commit()
                 return redirect(url_for('.Project:view_project', id=project.id))
 
-        return render_template('.project/submit.html', form=form, project=project)
+        if id is None:
+            return render_template('.project/submit.html', form=form, project=project)
+
+        else:
+            return render_template('.project/edit/edit.html', form=form, project=project)
+
+    @classy_menu_item('frontend.project.admin.images', 'Images', order=2)
+    @route('/<int:id>/edit/images', methods=['GET','POST'])
+    def edit_images(self, id):
+        return render_template('.project/edit/images.html')
+
+    @classy_menu_item('frontend.project.admin.contributors', 'Contributors', order=3)
+    @route('/<int:id>/edit/contributors', methods=['GET','POST'])
+    def edit_contributors(self, id):
+        return render_template('.project/edit/contributors.html')
+
+
+
+
+

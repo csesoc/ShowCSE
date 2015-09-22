@@ -98,23 +98,22 @@
                 <div class="panel panel-default">
                     <ul class="list-group">
                         {% for project in projects %}
-                            <a class="list-group-item" style="padding-bottom:30px;" href="{{ url_for('.Project:view_project', id=project.id) }}">
+                            <a class="list-group-item" href="{{ url_for('.Project:view_project', id=project.id) }}">
                                 <div class="pull-right">
+                                <!-- <img src="{{ project.images[0].url() if project.images[0]}}" style="max-height:100px; padding-right:30px;padding-bottom:20px;" /> -->
                                     <span class="glyphicon glyphicon-star-empty"></span>&nbsp;{{ project.stars.count() }}&nbsp;
                                 </div> 
-                                <img src="{{ project.images[0].url() if project.images[0]}}" style="max-height:100px;float:right;padding-right:30px;padding-bottom:20px;">
-                                <div style="font-size:1.6em;">{{ project.name }}</div>
-                                {{ project.description|truncate(80)|markdown }}
+                                
+                                <div style="font-size:1.3em;">{{ project.name }}</div>
+                                <div class="clearfix"></div>
                             </a>
                         {% endfor %}                   
                     </ul>
                 </div>
             {% else %}
-                <div class="row">
-                    <div class="panel panel-default panel-body">
-                        <div class="col-xs-12">
-                            <h3>This User has no Projects</h3>
-                        </div>
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <h3>This User has no Projects</h3>
                     </div>
                 </div>
             {% endif %}

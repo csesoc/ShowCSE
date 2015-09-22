@@ -1,0 +1,22 @@
+{% extends "frontend/project/base.html" %}
+
+{% block content %}
+    <div class="pull-right">
+    <a href="{{ url_for('.Project:view_project', id=project.id) }}" class="btn btn-primary btn-sm">Back to Project</a>
+    </div>
+    <h2 style="margin-top:0px;">{{ project.name }}</h2>
+    <div class="clearfix"></div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-3">
+            <ul class="nav nav-pills nav-stacked">
+                {% for item in current_menu.submenu('frontend.project.admin').children if item.visible %}
+                    <li role="presentation" {{ 'class=active' if item.active }}><a href="{{ item.url }}">{{ item.text }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col-xs-12 col-sm-9">
+            {% block right_content %}
+            {% endblock %}
+        </div>
+    </div>
+{% endblock %}
