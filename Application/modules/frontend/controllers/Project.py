@@ -1,5 +1,5 @@
 from flask.ext.classy import FlaskView, route
-from flask import render_template, request, redirect, url_for, abort, flash
+from flask import render_template, request, redirect, url_for, abort, flash, current_app
 from flask_menu.classy import classy_menu_item
 from flask_login import login_required, current_user
 from .forms import SubmitProjectForm, StarForm
@@ -23,6 +23,9 @@ class Project(FlaskView):
         project = DBProject.query.get_or_404(id)
         star_form = StarForm()
         if star_form.validate_on_submit():
+            if not current_user.is_authenticated:
+                return current_app.login_manager.unauthorized()
+
             if current_user in project.stars.all():
                 # remove user from starsa
                 project.stars.remove(current_user)
