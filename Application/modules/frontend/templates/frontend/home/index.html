@@ -28,23 +28,6 @@
                 </div>
             </div>
             {% endif %}
-
-            <div class="panel panel-default">
-                <div class="panel-heading">Project Directory (A-Z)</div>
-                <ul class="list-group project-directory">
-                    {% for project in projects %}
-                    <a class="list-group-item" href="{{ url_for('.Project:view_project', id=project.id) }}">
-                        <div class="pull-right">
-                            <span class="glyphicon glyphicon-star-empty"></span>&nbsp;{{ project.stars.count() }}&nbsp;
-                        </div> 
-                        <div class="project-title">{{ project.name }}</div>
-                        <div class="project-meta">{{ project.get_contributors() }}</div>
-                    </a>
-                    {% else %}
-                    <li class="text-center list-group-item">No projects were found.</li>
-                    {% endfor %}
-                </ul>
-            </div>
         </div>
         <div class="col-xs-12 col-sm-4">
             <div class="panel panel-default">
