@@ -1,15 +1,21 @@
 from flask.ext.classy import FlaskView, route
-from flask import render_template, request, redirect, url_for, abort, flash, current_app
+from flask import render_template, request, redirect, abort, flash, current_app
 from flask_menu.classy import classy_menu_item
 from flask_login import login_required, current_user
-from .forms import SubmitProjectForm, StarForm
+from .forms import (
+    StarForm, 
+    EditImages, 
+    UploadImages,
+    RemoveContributor,
+    AddContributor
+)
 
+from .lib import developers_only, submit_project, upload_images
 
 from Application.models.Project import Project as DBProject
-from Application.models.Project import ProjectImage
+from Application.models.User import User
 from Application import db
-from Application.uploads import images
-import os
+
 
 class Project(FlaskView):
     route_base = '/project'
@@ -40,71 +46,97 @@ class Project(FlaskView):
             star_form=star_form)
 
 
-    @classy_menu_item('frontend-right.submit', 'Submit', order=0)
     @login_required
-    @route('/submit/', methods=['GET','POST'], endpoint='Project:submit')
-    @route('/<int:id>/edit', methods=['GET','POST'], endpoint='Project:edit')
-    def submit(self, id=None):
-        project = None
-        if id is not None:
-            project = DBProject.query.get_or_404(id)
+    @classy_menu_item('frontend-right.submit', 'Submit', order=0)
+    @route('/submit/', methods=['GET','POST'])
+    def submit(self):
+        return submit_project()
 
-        form = SubmitProjectForm(obj=project)
-        if form.validate_on_submit():
+    @login_required
+    @classy_menu_item('frontend.project.admin.info', 'Project', order=0)
+    @route('/<int:id>/edit/info', methods=['GET','POST'])
+    def edit(self, id):
+        project = DBProject.query.get_or_404(id)
+        developers_only(project)
+        return submit_project(id)
 
-            if project is None:
-                project = DBProject()
-
-            project.description = form.description.data
-            project.download_link = form.download_link.data
-            project.website_link = form.website_link.data
-            project.demo_link = form.demo_link.data
-            project.name = form.name.data
-
-            # Check valid files
-            valid_files = True
-            for file in request.files.getlist("images"):
-                if file.filename:
-                    filename, extension = os.path.splitext(file.filename)
-                    if not images.extension_allowed(extension[1:].lower()):
-                        flash("Image: '{}' is not an allowed file format.".format(file.filename), 'danger')
-                        valid_files = False
-                        break
-                    else:
-                        filename = images.save(file)
-
-                        image = ProjectImage(
-                            filename=filename,
-                            project=project,
-                        )
-                        db.session.add(image)
-
-            if valid_files:
-                if id is None:
-                    db.session.add(project)
-                    project.devs.append(current_user)
-                    flash("Project '{}' created!".format(project.name), 'success')
-                else:    
-                    flash("Project '{}' updated!".format(project.name), 'success')
-                
-                db.session.commit()
-                return redirect(url_for('.Project:view_project', id=project.id))
-
-        if id is None:
-            return render_template('.project/submit.html', form=form, project=project)
-
-        else:
-            return render_template('.project/edit/edit.html', form=form, project=project)
-
+    @login_required
     @classy_menu_item('frontend.project.admin.images', 'Images', order=2)
     @route('/<int:id>/edit/images', methods=['GET','POST'])
     def edit_images(self, id):
-        return render_template('.project/edit/images.html')
+        project = DBProject.query.get_or_404(id)
+        developers_only(project)
 
+        edit_images_form = EditImages(prefix='del_image')
+        upload_images_form = UploadImages(prefix='upload_image')
+
+        if edit_images_form.submit.data and edit_images_form.validate_on_submit():
+            image = project.images.filter_by(id=edit_images_form.image_id.data).first()
+            if image is None:
+                abort(400)
+
+            db.session.delete(image)
+            db.session.commit()
+
+            flash("Image deleted!", 'success')
+
+        elif upload_images_form.submit.data and upload_images_form.validate_on_submit():
+            print("Validation on upload new images")
+
+            valid_files = upload_images(project)
+            if valid_files:
+                flash("Files uploaded successfully.", 'success')
+
+            db.session.commit()
+
+        return render_template('.project/edit/images.html', project=project, 
+            edit_images_form=edit_images_form, upload_images_form=upload_images_form)
+
+    @login_required
     @classy_menu_item('frontend.project.admin.contributors', 'Contributors', order=3)
     @route('/<int:id>/edit/contributors', methods=['GET','POST'])
     def edit_contributors(self, id):
-        return render_template('.project/edit/contributors.html')
+        project = DBProject.query.get_or_404(id)
+        developers_only(project)
+
+        add_form = AddContributor(prefix='add')
+        remove_form = RemoveContributor(prefix='remove')
+
+        print(request.form)
+
+        if project.can_edit_devs() and add_form.submit.data and add_form.validate_on_submit():
+            user = User.query.get(add_form.zid.data)
+            if user is None:
+                user = User(
+                    zid=add_form.zid.data,
+                    fullname=add_form.zid.data,
+                )
+                db.session.add(user)
+
+            if user not in project.devs:
+                flash("{} was successfully added as a developer.".format(user.fullname), 'success')
+                project.devs.append(user)
+            else:
+                flash("{} is already a developer".format(user.fullname), "danger")
+
+            db.session.commit()
+
+        elif project.can_edit_devs() and remove_form.submit.data and remove_form.validate_on_submit():
+            user = User.query.get(remove_form.zid.data)
+            if user is None:
+                abort(400)
+
+            print(user in project.devs)
+
+            if user in project.devs and user is not project.owner:
+                project.devs.remove(user)
+                flash("{} successfully removed.".format(user.fullname), 'success')
+
+            db.session.commit()
+
+
+        return render_template('.project/edit/contributors.html', project=project,
+            add_form=add_form, remove_form=remove_form)
 
 
 

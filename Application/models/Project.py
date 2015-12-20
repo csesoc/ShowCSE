@@ -35,6 +35,8 @@ class Project(db.Model):
     description = db.Column(db.Text)
 
     devs = db.relationship('User', secondary=project_users_devs,lazy='dynamic')
+    owner_id = db.Column(db.String(20), db.ForeignKey('user.zid'))
+    owner = db.relationship('User', foreign_keys=owner_id)
     stars = db.relationship('User', secondary=project_users_stars, lazy='dynamic')
 
 
@@ -78,4 +80,10 @@ class Project(db.Model):
                 ProjectImage.project_id == cls.id
             ).label('total_images'))
 
+    def can_edit_devs(self):
+        from flask_login import current_user
+        return current_user == self.owner
 
+    def can_edit_project(self):
+        from flask_login import current_user
+        return current_user in self.devs

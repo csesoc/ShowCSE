@@ -1,1 +1,41 @@
 {% extends "frontend/project/edit/base.html" %}
+{% block page_title %}Edit Project{% endblock %}
+
+{% block right_content %} 
+	<div class="panel panel-default">
+		<ul class="list-group">
+			{% for dev in project.devs %}
+				<li class="list-group-item">
+					{{ dev.fullname }}
+					<div class="pull-right">
+						{% if dev == project.owner %}
+							<small>(Owner)</small><i class="glyphicon glyphicon-user"></i>
+						{% endif %}
+						{% if project.can_edit_devs() and dev != project.owner %}
+							<form method="POST">
+								{{ remove_form.csrf_token() }}
+								{{ remove_form.zid(value=dev.zid) }}
+								{{ remove_form.submit(class="btn btn-warn btn-xs btn-danger") }}
+							</form>
+						{% endif %}
+					</div>
+				</li>
+			{% endfor %}
+		</ul>
+	</div>
+	{% if project.can_edit_devs() %}
+	<hr />
+	<form method="POST">
+		{{ add_form.csrf_token() }}
+		<div class="panel panel-default">
+			<div class="panel-body">
+				{{ render_field(add_form.zid) }}
+			</div>
+			<div class="panel-footer">
+				{{ render_field(add_form.submit) }}
+
+			</div>
+		</div>
+	</form>
+	{% endif %}
+{% endblock %}

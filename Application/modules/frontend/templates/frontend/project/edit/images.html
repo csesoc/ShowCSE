@@ -1,1 +1,49 @@
 {% extends "frontend/project/edit/base.html" %}
+{% block page_title %}Edit Project{% endblock %}
+
+
+{% block right_content %}
+
+	{% include "frontend/project/include/fancy_upload.html" %}
+
+	{% for image in project.images %}
+    <div class="col-xs-6 col-sm-3">
+    	<form method="POST">
+    		{{ edit_images_form.csrf_token() }}
+        	{{ edit_images_form.image_id(value=image.id) }}
+        	<a href="{{ image.url() }}" target="_blank" class="thumbnail">
+	            <img src="{{ image.url() }}">
+	        	<div style="margin-top:5px;">
+        			{{ edit_images_form.submit(class="btn btn-warn btn-danger btn-xs") }}
+	        	</div>
+        	</a>
+        </form>
+    </div>
+    
+    {% endfor %}
+    <div class="clearfix"></div>
+    <hr />
+
+    <form method="POST" enctype="multipart/form-data">
+		{{ upload_images_form.hidden_tag() }}
+	    <div class="form-group">
+		    <label>Upload New Images</label>
+		    <div class="input-group fileupload">
+		        <span class="input-group-btn">
+		            <span class="btn btn-primary btn-file">
+		                Browse&hellip; 
+		                <input type="file" name="images" accept="image/*" multiple>
+		            </span>
+		        </span>
+		        <input type="text" class="form-control" readonly>
+		    </div>
+		    <span class="help-block">
+		        You can select more than one image.
+		    </span>
+		</div>
+		<div class="text-right">
+			{{ upload_images_form.submit(class="btn btn-primary") }}
+		</div>
+	</form>
+
+{% endblock %}

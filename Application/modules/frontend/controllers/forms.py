@@ -45,7 +45,6 @@ class SubmitProjectForm(Form):
             validators.optional(), 
             validators.Regexp(r'http[s]?://[^\"\']', message="Not a valid URL")])
 
-    contributors = TextField("Contributors (zID's)")
     tags = TextField("Tags", description="Space separated")
 
 class UserEditForm(Form):
@@ -57,4 +56,23 @@ class UserEditForm(Form):
 
 class StarForm(Form):
     submit = SubmitField("Star")
+
+class EditImages(Form):
+    image_id = HiddenField(validators=[validators.required()])
+    submit = SubmitField("Delete")
+
+class UploadImages(Form):
+    submit = SubmitField("Upload Images")    
+
+class RemoveContributor(Form):
+    zid = HiddenField(validators=[validators.required()])
+    submit = SubmitField("Remove")
+
+class AddContributor(Form):
+    zid = TextField("zID", description="We will attempt to find this user "\
+        "on ShowCSE. If they do not have an account, their zID will be replaced "\
+        "by their name on their first login.", validators=[validators.required()])
+    submit = SubmitField("Add Contributor")    
+
+
 

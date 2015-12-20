@@ -24,6 +24,10 @@ Menu(app)
 from flask.ext.sqlalchemy import SQLAlchemy
 db = SQLAlchemy(app)
 
+
+from flask.ext.migrate import Migrate
+migrate = Migrate(app, db)
+
 # Register blueprints
 from Application.modules.frontend import frontend
 app.register_blueprint(frontend, url_prefix='')
@@ -32,20 +36,6 @@ app.register_blueprint(frontend, url_prefix='')
 from flask.ext.ldap3_login.forms import LDAPLoginForm
 from flask_ldap3_login import LDAP3LoginManager
 from flask_login import LoginManager, login_user, UserMixin, current_user
-
-# Setup LDAP Configuration Variables. Change these to your own settings.
-# All configuration directives can be found in the documentation.
-app.config['LDAP_HOST'] = 'ad.unsw.edu.au'             # Hostname of your LDAP Server
-app.config['LDAP_BASE_DN'] = 'OU=IDM,DC=ad,DC=unsw,DC=edu,DC=au'       # Base DN of your directory
-app.config['LDAP_USER_DN'] = 'OU=IDM_People'                 # Users DN to be prepended to the Base DN
-# app.config['LDAP_GROUP_DN'] = 'ou=groups'               # Groups DN to be prepended to the Base DN
-app.config['LDAP_BIND_DIRECT_CREDENTIALS'] = True
-app.config['LDAP_BIND_DIRECT_SUFFIX'] = "@ad.unsw.edu.au"
-app.config['LDAP_BIND_DIRECT_GET_USER_INFO'] = True
-app.config['LDAP_USER_SEARCH_SCOPE'] = "SEARCH_SCOPE_WHOLE_SUBTREE"
-app.config['LDAP_USER_LOGIN_ATTR'] = 'cn'
-app.config['LDAP_GET_USER_ATTRIBUTES'] = ['dn', 'cn', 'memberOf', 'givenName', 'sn']
-
 
 login_manager = LoginManager(app)              # Setup a Flask-Login Manager
 login_manager.login_view = "frontend.Security:login"
@@ -75,7 +65,6 @@ def save_user(dn, username, data, memberships):
     user = load_user(username)
     if user is None:
         user = User(
-            dn=dn,
             zid=username,
         )
         db.session.add(user)
@@ -84,11 +73,11 @@ def save_user(dn, username, data, memberships):
         data['givenName'][0],
         data['sn'][0],
     )
+    user.dn = dn
     user.program = "??"
+    user.has_logged_in = True
     db.session.commit()
     return user
-
-db.create_all()
 
 # Uploads
 from .uploads import images
@@ -97,4 +86,4 @@ patch_request_class(app)
 
 #Markdown
 from flask.ext.misaka import Misaka
-Misaka(app)
+Misaka(app, escape=True, autolink=True)

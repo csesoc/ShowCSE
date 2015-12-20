@@ -24,3 +24,7 @@
 (you) $ vagrant up
 ```
 
+##### Connecting UNSW LDAP
+```
+ssh you@cse.unsw.edu.au -L 1389:ad.unsw.edu.au:1389
+```

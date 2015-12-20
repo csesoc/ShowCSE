@@ -1,9 +1,22 @@
 {% extends "_bases/_base.html" %}
 {% block head %}
   {{ super() }}
-  <link rel="stylesheet" type="text/css" href="{{ url_for('.static',filename='vendor/bootstrap.min.css') }}">
   <link rel="stylesheet" type="text/css" href="{{ url_for('.static',filename='less/common.css') }}">
   <!-- <script type="text/javascript" src="{{ url_for('static',filename='_vendor/bootstrap-material-design/js/material.js') }}"></script> -->
+  <script>
+    $(document).ready(function() {
+        $('.btn-warn').click(function(e) {
+            var response = window.confirm("Are you sure?");
+            if (!response) {
+                e.preventDefault()
+                e.stopPropagation();
+                return false;
+            }
+            return true;
+        })
+    })
+  
+  </script>
 
 {% endblock %}
 {% block body %}
@@ -70,7 +83,7 @@
         <hr />
         <footer class="footer">
             <div class="container">
-                <p class="text-muted" style="text-align:center">ShowCSE was written by Nicholas Whyte, Steven Strijakov and Jake Bloom. Future generations of CSE, please keep this alive!</p>
+                <p class="text-muted" style="text-align:center">ShowCSE was written by Nick Whyte, Steven Strijakov and Jake Bloom. &copy; CSESoc 2015. <br />Feature Requests, Security Concerns, and Enquiries: <a href="mailto:csesoc.dev.head@cse.unsw.edu.au">csesoc.dev.head@cse.unsw.edu.au</a></p>
             </div>
         </footer>
     </div>

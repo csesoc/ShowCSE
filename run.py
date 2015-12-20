@@ -10,5 +10,8 @@ manager = MainManager(app,
 
 manager.add_command('data', SampleDataCommand)
 
+from flask.ext.migrate import MigrateCommand
+manager.add_command('db', MigrateCommand)
+
 if __name__ == "__main__":
     manager.run(default_command="server")

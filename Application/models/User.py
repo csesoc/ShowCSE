@@ -26,6 +26,7 @@ class User(db.Model, UserMixin):
     stars = db.relationship('Project', secondary='project_users_stars', 
         lazy='dynamic')
     projects = db.relationship('Project', secondary='project_users_devs', lazy='dynamic')
+    has_logged_in = db.Column(db.Boolean(), default=False)
 
     def get_id(self):
         return self.zid

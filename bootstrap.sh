@@ -5,7 +5,7 @@ MYSQL_ROOT_PW="RlzUsa7HnGBqHrmZbwNDqbkXYeCPKx"
 # This project is DevScale!
 
 apt-get update
-apt-get install -y python2.7 python3.4 python3-dev python-dev python-setuptools python3-setuptools
+apt-get install -y python2.7 python3.4 python3-dev python-dev python-setuptools python3-setuptools libffi-dev
 apt-get install -y mongodb redis-server
 apt-get install -y git curl
 apt-get install -y mysql-server

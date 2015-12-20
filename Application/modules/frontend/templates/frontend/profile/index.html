@@ -1,12 +1,12 @@
 {% extends "frontend/profile/base.html" %}
-
+{% block page_title %}{{ user.fullname }}{% endblock %}
 {% block content %}
 
     <div class="pull-right">
         {% if user != current_user %}
 
             {% if following %}  
-                <a href="{{ url_for('.Profile:unfollow', user_id=user.zid) }}" class="btn btn-primary btn-sm">Unfollow</a>
+                <a href="{{ url_for('.Profile:unfollow', user_id=user.zid) }}" class="btn btn-primary btn-sm">Unfollow &#x1F4A9;</a>
             {% else %}
                 <a href="{{ url_for('.Profile:follow', user_id=user.zid) }}" class="btn btn-primary btn-sm">Follow</a>
             {% endif %}
@@ -20,7 +20,7 @@
         {% endif %}
 
         {% if user.website %}
-            <a href="http://{{user.website}}" class="btn btn-primary btn-sm" target="_blank">Website</a>
+            <a href="{{user.website}}" class="btn btn-primary btn-sm" target="_blank">Website</a>
         {% endif %}
 
     </div>
@@ -40,7 +40,7 @@
                         </ul>
                     {% else %}
                         <div class="panel-body text-center">
-                            <p>This user has no starred projects</p>
+                            <div>This user has no starred projects</div>
                         </div>
                     {% endif %}
             </div>
@@ -56,7 +56,7 @@
                     </ul>
                 {% else %}
                     <div class="panel-body text-center">
-                        <p>This user has no followers</p>
+                        <div>This user has no followers.</div>
                     </div>
                 {% endif %}
             </div>
@@ -72,7 +72,7 @@
                     </ul>
                 {% else %}
                     <div class="panel-body text-center">
-                        <p>This user is not following anyone</p>
+                        <div>This user is not following anyone.</div>
                     </div>
                 {% endif %}
             </div>
@@ -83,7 +83,7 @@
                     {% if user.about %}
                         {{ user.about|markdown }}
                     {% else %}
-                        <p>This user has not filled out this section of their profile</p>
+                        <div>This user has not filled out this section of their profile.</div>
                     {% endif %}
                 </div>
             </div>
@@ -112,8 +112,8 @@
                 </div>
             {% else %}
                 <div class="panel panel-default">
-                    <div class="panel-body">
-                        <h3>This User has no Projects</h3>
+                    <div class="panel-body text-center">
+                        <div>This user has no projects. &#x1F625;</div>
                     </div>
                 </div>
             {% endif %}

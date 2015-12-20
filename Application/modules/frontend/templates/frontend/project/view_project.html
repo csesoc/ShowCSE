@@ -1,10 +1,10 @@
 {% extends "frontend/project/base.html" %}
-
+{% block page_title %}{{ project.name }}{% endblock %}
 {% block content %}
     <form method="POST">
         {{ star_form.hidden_tag() }}
         <div class="pull-right">
-            {% if current_user in project.devs.all() %}
+            {% if project.can_edit_project() %}
                 <a href="{{ url_for('.Project:edit', id=project.id) }}" class="btn btn-primary btn-sm">Edit</a>
             {% endif %}
 
