@@ -54,12 +54,13 @@ SENTRY_DSN=
 CONFIG_CLASS=Production
 ```
 
-*Setup the MySQL Container*
+**Setup the MySQL Container**
+
 ```
 docker create --name showcse.mysql -e MYSQL_RANDOM_ROOT_PASSWORD=true --env-file=env.sh mysql
 ```
 
-*Run the MySQL Container*
+**Run the MySQL Container**
 ```
 docker start showcse.mysql
 ```
