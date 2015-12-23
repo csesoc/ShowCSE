@@ -1,1 +1,1 @@
-mysql -u webskale -e "DROP DATABASE webskale; CREATE DATABASE webskale;"
+mysql -u showcse -e "DROP DATABASE showcse; CREATE DATABASE showcse;"

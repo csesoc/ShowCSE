@@ -1,8 +1,12 @@
+import os
+
 class Config(object):
     APP_NAME = "ShowCSE"
-    MONGOALCHEMY_DATABASE = "webskale"
-    SECRET_KEY = 'SUPER SECRET KEY'
-    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://webskale@127.0.0.1/webskale'
+    ENV_SETTING_PREFIX = "SHOWCSE_"
+    SECRET_KEY = 'super-secret-key'
+
+    DEBUG = True
+    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://showcse@127.0.0.1/showcse'
     
 
     UPLOADED_FILES_DEST = 'Application/static/uploads'
@@ -20,3 +24,26 @@ class Config(object):
     LDAP_GET_USER_ATTRIBUTES = ['dn', 'cn', 'memberOf', 'givenName', 'sn']
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+class Production(Config):
+    LDAP_HOST = 'ad.unsw.edu.au:389'
+    SQLALCHEMY_DATABASE_URI = "mysql+pymysql://{}:{}@mysql/{}".format(
+        os.environ.get('MYSQL_USER')
+        os.environ.get('MYSQL_PASSWORD')
+        os.environ.get('MYSQL_DATABASE')
+    )
+    SECRET_KEY = os.environ.get('SECRET_KEY')
+    SENTRY_DSN = os.environ.get('SENTRY_DSN')
+    DEBUG = False
+
+
+def get_config_class():
+    import os
+    config_name = os.environ.get('CONFIG_CLASS', 'Config')
+    config_class = globals().get(config_name)
+    if config_class is None:
+        raise Exception("Configuration class '{}' could not be loaded".format(config_name))
+    
+    print("Using configuration class: '{}'".format(config_class.__name__))
+
+    return config_class

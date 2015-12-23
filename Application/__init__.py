@@ -4,8 +4,8 @@ from flask_menu import Menu
 
 app = Flask(__name__)
 
-from .config import Config
-app.config_class = Config
+from .config import get_config_class
+app.config_class = get_config_class()
 app.config.from_object(app.config_class)
 
 
@@ -87,3 +87,14 @@ patch_request_class(app)
 #Markdown
 from flask.ext.misaka import Misaka
 Misaka(app, escape=True, autolink=True)
+
+
+if not app.debug:
+    import logging
+    from logging.handlers import SMTPHandler
+    mail_handler = SMTPHandler('127.0.0.1',
+                               'admin@showc.se',
+                               app.config.get('DEBUG_EMAILS'), 
+                               '{} Failed'.format(app.config.get('APP_NAME')))
+    mail_handler.setLevel(logging.ERROR)
+    app.logger.addHandler(mail_handler)

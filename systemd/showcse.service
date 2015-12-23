@@ -1,0 +1,12 @@
+[Unit]
+Description=ShowCSE Docker Container
+Requires=docker.service showcse.mysql.service
+After=docker.service showcse.mysql.service
+
+[Service]
+Restart=always
+ExecStart=/usr/bin/docker start -a showcse
+ExecStop=/usr/bin/docker stop -t 2 showcse
+
+[Install]
+WantedBy=local.target

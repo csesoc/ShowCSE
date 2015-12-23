@@ -21,7 +21,7 @@ class Home(FlaskView):
             top_projects=top_projects
         )
 
-    @classy_menu_item('frontend.directory', 'Directory', order=0)
+    @classy_menu_item('frontend.directory', 'Directory', order=1)
     def directory(self):
         projects = Project.query.filter(Project.name != None).order_by(
             Project.name.asc())

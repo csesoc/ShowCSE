@@ -12,3 +12,4 @@ Flask-Misaka
 speaklater
 misaka<2.0
 flask-migrate
+gunicorn
