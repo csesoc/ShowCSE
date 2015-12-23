@@ -33,7 +33,8 @@ Deploy using docker.
 
 
 ### Initial Creation
-*Configure Environment Variables*
+**Configure Environment Variables**
+
 Create an env.sh file, which we will use when creating our docker containers to ensure the expected environment is passed to each container. Save this file as `env.sh`, unless you wish to modify subsequent commands that use it.
 
 ```
@@ -63,7 +64,8 @@ docker create --name showcse.mysql -e MYSQL_RANDOM_ROOT_PASSWORD=true --env-file
 docker start showcse.mysql
 ```
 
-*Setup the App Container*
+**Setup the App Container**
+
 The app container requires a few environment variables to be set:
 
  - `CONFIG_CLASS`: Determines what configuration settings should be used.
