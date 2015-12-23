@@ -66,17 +66,6 @@ docker start showcse.mysql
 
 **Setup the App Container**
 
-The app container requires a few environment variables to be set:
-
- - `CONFIG_CLASS`: Determines what configuration settings should be used.
- - `MYSQL_USER`
- - `MYSQL_PASSWORD`
- - `MYSQL_DATABASE`
- - `SECRET_KEY`
- - `SENTRY_DSN` (optional) - Ship exceptions to a sentry logging instance.
-
-If you changed `MYSQL_DATABASE`/`MYSQL_USER` in the first setup, make sure you reflect this change here
-
 ```
 # You can replace the port binding with whatever you feel is good.
 docker create --name showcse --env-file=env.sh --link showcse.mysql:mysql -p 0.0.0.0:8000:8000 nickw444/showcse
