@@ -84,6 +84,14 @@ docker start showcse
 
 ### Run at Startup with systemd
 Copy or Clone this repo to acquire the service files. See folder `./systemd/` which contains systemd services.
+
+**Stop existing containers**
+```
+docker stop showcse showcse.mysql
+```
+
+**Enable/Install the Services**
+
 ```
 # Enable the Services
 systemctl enable systemd/showcse.mysql.service
