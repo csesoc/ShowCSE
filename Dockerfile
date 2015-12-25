@@ -9,5 +9,5 @@ WORKDIR /build/
 RUN pip3 install -r requirements.txt
 
 VOLUME /build/Application/static/uploads/
-EXPOSE 8000
+EXPOSE 8080
 CMD gunicorn -c gunicorn.py Application:app

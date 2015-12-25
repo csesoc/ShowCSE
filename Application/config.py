@@ -28,11 +28,12 @@ class Config(object):
 class Production(Config):
     LDAP_HOST = 'ad.unsw.edu.au:389'
     SQLALCHEMY_DATABASE_URI = "mysql+pymysql://{}:{}@mysql/{}".format(
-        os.environ.get('MYSQL_USER')
-        os.environ.get('MYSQL_PASSWORD')
-        os.environ.get('MYSQL_DATABASE')
+        os.environ.get('MYSQL_USER'),
+        os.environ.get('MYSQL_PASSWORD'),
+        os.environ.get('MYSQL_DATABASE'),
     )
     SECRET_KEY = os.environ.get('SECRET_KEY')
+    SENTRY_ENABLED = True
     SENTRY_DSN = os.environ.get('SENTRY_DSN')
     DEBUG = False
 

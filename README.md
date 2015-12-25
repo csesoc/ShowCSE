@@ -27,15 +27,18 @@
 ssh you@cse.unsw.edu.au -L 1389:ad.unsw.edu.au:1389
 ```
 
-
 ## Deploying
 Deploy using docker.
+
+These instructions assume you've got the Makefile which is at the top 
+level of this repository. It is not required, however may save you some
+time copying out commands.
 
 
 ### Initial Creation
 **Configure Environment Variables**
 
-Create an env.sh file, which we will use when creating our docker containers to ensure the expected environment is passed to each container. Save this file as `env.sh`, unless you wish to modify subsequent commands that use it.
+Create an env.sh file, which we will use when creating our docker containers to ensure the expected environment is passed to each container. Save this file as `env.sh`, unless you wish to modify subsequent commands that use it. We've included an example one: `env.example.sh`
 
 ```
 MYSQL_DATABASE=showcse
@@ -54,32 +57,20 @@ SENTRY_DSN=
 CONFIG_CLASS=Production
 ```
 
-**Setup the MySQL Container**
+**Setup the Containers and Links**
 
 ```
-docker create --name showcse.mysql -e MYSQL_RANDOM_ROOT_PASSWORD=true --env-file=env.sh mysql
+make create
 ```
 
-**Run the MySQL Container**
+** Initially Seed the Database **
 ```
-docker start showcse.mysql
-```
-
-**Setup the App Container**
-
-```
-# You can replace the port binding with whatever you feel is good.
-docker create --name showcse --env-file=env.sh --link showcse.mysql:mysql -p 0.0.0.0:8000:8000 nickw444/showcse
+make seed
 ```
 
-Before first run, we must provision the database
+**Start ShowCSE**
 ```
-docker run -it --rm -env-file=env.sh --link showcse.mysql:mysql nickw444/showcse python3 run.py db upgrade
-```
-
-Start ShowCSE
-```
-docker start showcse
+make start
 ```
 
 ### Run at Startup with systemd
@@ -87,7 +78,7 @@ Copy or Clone this repo to acquire the service files. See folder `./systemd/` wh
 
 **Stop existing containers**
 ```
-docker stop showcse showcse.mysql
+make stop
 ```
 
 **Enable/Install the Services**
@@ -103,12 +94,12 @@ systemctl start showcse
 
 ## Building the Docker Image
 ```
-docker build --rm -t nickw444/showcse .
+make build
 ```
 
 ## Push Docker Image To Cloud
 
-docker push nickw444/showcse
+make push
 
 
 

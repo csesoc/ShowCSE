@@ -8,7 +8,6 @@ from .config import get_config_class
 app.config_class = get_config_class()
 app.config.from_object(app.config_class)
 
-
 # Use Boilerplate extensions
 Boilerplate(app)
 
