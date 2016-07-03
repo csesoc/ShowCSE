@@ -4,7 +4,7 @@ ENV_FILE="env.sh"
 DOCKER_NAME="showcse"
 
 build:
-	docker build --rm -t $(ARTIFACT_NAME) .
+	docker build -t $(ARTIFACT_NAME) .
 
 push:
 	docker push  $(ARTIFACT_NAME)

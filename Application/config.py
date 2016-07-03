@@ -1,4 +1,5 @@
 import os
+from urllib.parse import urlparse
 
 class Config(object):
     APP_NAME = "ShowCSE"
@@ -26,15 +27,13 @@ class Config(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 class Production(Config):
+    def __init__(self):
+        self.SQLALCHEMY_DATABASE_URI = build_url(os.environ['DATABASE_URL'], scheme='mysql+pymysql')
+        self.SECRET_KEY = os.environ['SECRET_KEY']
+        self.SENTRY_DSN = os.environ.get('SENTRY_DSN')
+
     LDAP_HOST = 'ad.unsw.edu.au:389'
-    SQLALCHEMY_DATABASE_URI = "mysql+pymysql://{}:{}@mysql/{}".format(
-        os.environ.get('MYSQL_USER'),
-        os.environ.get('MYSQL_PASSWORD'),
-        os.environ.get('MYSQL_DATABASE'),
-    )
-    SECRET_KEY = os.environ.get('SECRET_KEY')
     SENTRY_ENABLED = True
-    SENTRY_DSN = os.environ.get('SENTRY_DSN')
     DEBUG = False
 
 
@@ -48,3 +47,32 @@ def get_config_class():
     print("Using configuration class: '{}'".format(config_class.__name__))
 
     return config_class
+
+def build_url(url, scheme=None, username=None, password=None, hostname=None, 
+              port=None, path=None):
+    dsn = urlparse(url)
+
+    if scheme is None: scheme = dsn.scheme
+    if username is None: username = dsn.username
+    if password is None: password = dsn.password
+    if hostname is None: hostname = dsn.hostname
+    if port is None: port = dsn.port
+    if path is None: path = dsn.path
+
+    def build_auth():
+        if username is not None or password is not None:
+            return '{}:{}@'.format(username or '', password or '')
+        return ''
+
+    def build_port():
+        if port is not None:
+            return ':{}'.format(port)
+        return ''
+
+    return '{scheme}://{auth}{hostname}{port}{path}'.format(
+        scheme=scheme,
+        auth=build_auth(),
+        hostname=hostname or '',
+        port=build_port(),
+        path=path
+    )

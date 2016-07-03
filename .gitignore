@@ -63,3 +63,5 @@ node_modules/
 Application/static/uploads/
 
 env.sh
+
+venv
