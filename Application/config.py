@@ -7,7 +7,7 @@ class Config(object):
     SECRET_KEY = 'super-secret-key'
 
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://showcse@127.0.0.1/showcse'
+    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root@127.0.0.1/showcse?charset=utf8mb4'
     
 
     UPLOADED_FILES_DEST = 'Application/static/uploads'
@@ -28,7 +28,7 @@ class Config(object):
 
 class Production(Config):
     def __init__(self):
-        self.SQLALCHEMY_DATABASE_URI = build_url(os.environ['DATABASE_URL'], scheme='mysql+pymysql')
+        self.SQLALCHEMY_DATABASE_URI = build_url(os.environ['DATABASE_URL'], scheme='mysql+pymysql') + '?charset=utf8mb4'
         self.SECRET_KEY = os.environ['SECRET_KEY']
         self.SENTRY_DSN = os.environ.get('SENTRY_DSN')
 
