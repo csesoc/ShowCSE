@@ -8,7 +8,7 @@ class Config(object):
 
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root@127.0.0.1/showcse?charset=utf8mb4'
-    
+    SQLALCHEMY_POOL_RECYCLE =  60 * 10  # 10 Minutes Pool Recycle.
 
     UPLOADED_FILES_DEST = 'Application/static/uploads'
     UPLOADED_FILES_URL = '/static/'
