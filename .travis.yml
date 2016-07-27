@@ -7,7 +7,7 @@ services:
   - docker
 
 before_install:
-  - pip install flake8 flake8-putty
+  - pip install "flake8<3.0.0" flake8-putty
 
 script:
   - flake8
