@@ -14,7 +14,7 @@ docker build -t csesoc/showcse:$REPO_TAG .
 docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
 docker push csesoc/showcse:$REPO_TAG
 
-if [ "$TRAVIS_BRANCH" == "master" ]; then
+if [ "$TRAVIS_BRANCH" = "master" ]; then
     docker tag docker tag csesoc/showcse:$REPO_TAG csesoc/showcse:latest;
     docker push csesoc/showcse:latest;
 fi
