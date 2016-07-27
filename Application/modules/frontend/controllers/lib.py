@@ -10,10 +10,10 @@ import os
 from .forms import SubmitProjectForm
 
 def developers_only(project):
-	if not project.can_edit_project():
-		abort(403)
+    if not project.can_edit_project():
+        abort(403)
 
-	return True
+    return True
 
 
 def submit_project(id=None):

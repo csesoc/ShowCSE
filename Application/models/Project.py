@@ -2,12 +2,14 @@ from Application import db
 from .UTCDateTime import UTCDateTime, now
 from sqlalchemy.ext.hybrid import hybrid_property
 
-project_users_devs = db.Table('project_users_devs',
+project_users_devs = db.Table(
+    'project_users_devs',
     db.Column('project_id', db.Integer, db.ForeignKey('project.id')),
     db.Column('user_id', db.String(20), db.ForeignKey('user.zid'))
 )
 
-project_users_stars = db.Table('project_users_stars',
+project_users_stars = db.Table(
+    'project_users_stars',
     db.Column('project_id', db.Integer, db.ForeignKey('project.id')),
     db.Column('user_id', db.String(20), db.ForeignKey('user.zid'))
 )
@@ -18,7 +20,8 @@ class ProjectImage(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     filename = db.Column(db.String(255))
     project_id = db.Column(db.Integer, db.ForeignKey('project.id'))
-    project = db.relationship('Project', foreign_keys=project_id, 
+    project = db.relationship(
+        'Project', foreign_keys=project_id, 
         backref=db.backref('images', lazy='dynamic'))
 
     def url(self):
@@ -34,11 +37,10 @@ class Project(db.Model):
     
     description = db.Column(db.Text)
 
-    devs = db.relationship('User', secondary=project_users_devs,lazy='dynamic')
+    devs = db.relationship('User', secondary=project_users_devs, lazy='dynamic')
     owner_id = db.Column(db.String(20), db.ForeignKey('user.zid'))
     owner = db.relationship('User', foreign_keys=owner_id)
     stars = db.relationship('User', secondary=project_users_stars, lazy='dynamic')
-
 
     # Images
     # primary_image_id = db.Column(db.Integer, db.ForeignKey('project_image.id'))
@@ -49,13 +51,11 @@ class Project(db.Model):
     website_link = db.Column(db.String(255))
     demo_link = db.Column(db.String(255))
 
-    #TODO
+    # TODO
     tags = db.Column(db.String(255))
-
 
     def get_contributors(self):
         return ', '.join([x.fullname for x in self.devs])
-
 
     @hybrid_property
     def num_stars(self):
@@ -74,11 +74,11 @@ class Project(db.Model):
 
     @num_images.expression
     def _num_images_expression(cls):
-        return (db.select(
-                [db.func.count(ProjectImage.project_id).label('num_images')]
-            ).where(
-                ProjectImage.project_id == cls.id
-            ).label('total_images'))
+        return db.select(
+            [db.func.count(ProjectImage.project_id).label('num_images')]
+        ).where(
+            ProjectImage.project_id == cls.id
+        ).label('total_images')
 
     def can_edit_devs(self):
         from flask_login import current_user

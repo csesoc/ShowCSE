@@ -1,17 +1,10 @@
 from flask_wtf import Form
 from wtforms import (
-    DateField, 
     TextField, 
-    SelectField, 
     SubmitField, 
-    TextAreaField, 
-    StringField, 
-    BooleanField,
-    IntegerField,
-    PasswordField,
+    TextAreaField,
     HiddenField,
 )
-from wtforms import widgets
 import wtforms.validators as validators
 
 from flask_ldap3_login.forms import LDAPLoginForm
@@ -32,15 +25,24 @@ class SubmitProjectForm(Form):
     submit = SubmitField("Add Project")
     save = SubmitField("Save Changes")
 
-    download_link = TextField("Download Link", description="(optional) eg. http://mywebsite.com", 
-        validators=[
-        validators.optional(), 
-        validators.Regexp(r'http[s]?://[^\"\']', message="Not a valid URL")])
-    website_link = TextField("Website Link", description="(optional) A link to a website about your project. eg. http://mywebsite.com",
+    download_link = TextField(
+        "Download Link", 
+        description="(optional) eg. http://mywebsite.com", 
         validators=[
             validators.optional(), 
             validators.Regexp(r'http[s]?://[^\"\']', message="Not a valid URL")])
-    demo_link = TextField("Demo Link", description="(optional) A link to a working demo of your project. eg. http://mywebsite.com",
+
+    website_link = TextField(
+        "Website Link", 
+        description="(optional) A link to a website about your project. eg. http://mywebsite.com",
+        validators=[
+            validators.optional(),
+            validators.Regexp(r'http[s]?://[^\"\']', message="Not a valid URL")])
+
+    demo_link = TextField(
+        "Demo Link", 
+        description="(optional) A link to a working demo of your project. "
+                    "eg. http://mywebsite.com",
         validators=[
             validators.optional(), 
             validators.Regexp(r'http[s]?://[^\"\']', message="Not a valid URL")])
@@ -69,9 +71,12 @@ class RemoveContributor(Form):
     submit = SubmitField("Remove")
 
 class AddContributor(Form):
-    zid = TextField("zID", description="We will attempt to find this user "\
-        "on ShowCSE. If they do not have an account, their zID will be replaced "\
-        "by their name on their first login.", validators=[validators.required()])
+    zid = TextField(
+        "zID", 
+        description="We will attempt to find this user on ShowCSE. If they do"
+                    " not have an account, their zID will be replaced by their"
+                    " name on their first login.",
+        validators=[validators.required()])
     submit = SubmitField("Add Contributor")    
 
 

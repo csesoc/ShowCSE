@@ -1,0 +1,12 @@
+[flake8]
+ignore = E302, E121, W291, W391, W293, E261, W292, E401
+exclude =
+    .git,
+    venv,
+    migrations/env.py,
+
+max-line-length = 100
+
+putty-ignore =
+    migrations/versions/*.py : +E266,E122,E402,E501,F401,E231,E128
+    Application/__init__.py : +E402,F401

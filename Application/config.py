@@ -8,11 +8,10 @@ class Config(object):
 
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root@127.0.0.1/showcse?charset=utf8mb4'
-    SQLALCHEMY_POOL_RECYCLE =  60 * 10  # 10 Minutes Pool Recycle.
+    SQLALCHEMY_POOL_RECYCLE = 60 * 10  # 10 Minutes Pool Recycle.
 
     UPLOADED_FILES_DEST = 'Application/static/uploads'
     UPLOADED_FILES_URL = '/static/'
-    
 
     LDAP_HOST = '127.0.0.1:1389'
     LDAP_BASE_DN = 'OU=IDM,DC=ad,DC=unsw,DC=edu,DC=au'
@@ -28,7 +27,9 @@ class Config(object):
 
 class Production(Config):
     def __init__(self):
-        self.SQLALCHEMY_DATABASE_URI = build_url(os.environ['DATABASE_URL'], scheme='mysql+pymysql') + '?charset=utf8mb4'
+        self.SQLALCHEMY_DATABASE_URI = build_url(
+            os.environ['DATABASE_URL'], 
+            scheme='mysql+pymysql') + '?charset=utf8mb4'
         self.SECRET_KEY = os.environ['SECRET_KEY']
         self.SENTRY_DSN = os.environ.get('SENTRY_DSN')
 
@@ -52,12 +53,18 @@ def build_url(url, scheme=None, username=None, password=None, hostname=None,
               port=None, path=None):
     dsn = urlparse(url)
 
-    if scheme is None: scheme = dsn.scheme
-    if username is None: username = dsn.username
-    if password is None: password = dsn.password
-    if hostname is None: hostname = dsn.hostname
-    if port is None: port = dsn.port
-    if path is None: path = dsn.path
+    if scheme is None: 
+        scheme = dsn.scheme
+    if username is None: 
+        username = dsn.username
+    if password is None: 
+        password = dsn.password
+    if hostname is None: 
+        hostname = dsn.hostname
+    if port is None: 
+        port = dsn.port
+    if path is None: 
+        path = dsn.path
 
     def build_auth():
         if username is not None or password is not None:

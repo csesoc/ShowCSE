@@ -1,12 +1,6 @@
 import datetime
 import pytz
-from sqlalchemy import (
-    Column,
-    DateTime
-)
-
 from sqlalchemy import types
-
 
 class UTCDateTime(types.TypeDecorator):
 

@@ -20,7 +20,7 @@ monkey_patch_all()
 # Setup Flask Menu
 Menu(app)
 
-#Setup db
+# Setup db
 from flask.ext.sqlalchemy import SQLAlchemy
 db = SQLAlchemy(app)
 
@@ -84,7 +84,7 @@ from .uploads import images
 from flask.ext.uploads import configure_uploads, patch_request_class
 patch_request_class(app)
 
-#Markdown
+# Markdown
 from flask.ext.misaka import Misaka
 Misaka(app, escape=True, autolink=True)
 

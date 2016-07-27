@@ -1,7 +1,7 @@
 import os
 
-threads=4
+threads = 4
 bind = '0.0.0.0:{}'.format(os.environ.get('PORT', '5000'))
-accesslog =  '-'
+accesslog = '-'
 errorlog = '-'
 loglevel = 'warning'

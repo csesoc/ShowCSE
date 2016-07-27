@@ -1,5 +1,5 @@
 from flask.ext.classy import FlaskView, route
-from flask import render_template, request, redirect, abort, flash, current_app
+from flask import render_template, request, abort, flash, current_app
 from flask_menu.classy import classy_menu_item
 from flask_login import login_required, current_user
 from .forms import (
@@ -41,20 +41,20 @@ class Project(FlaskView):
 
             db.session.commit()
 
-        
-        return render_template('.project/view_project.html', project=project, 
+        return render_template(
+            '.project/view_project.html', 
+            project=project,
             star_form=star_form)
-
 
     @login_required
     @classy_menu_item('frontend-right.submit', 'Submit', order=0)
-    @route('/submit/', methods=['GET','POST'])
+    @route('/submit/', methods=['GET', 'POST'])
     def submit(self):
         return submit_project()
 
     @login_required
     @classy_menu_item('frontend.project.admin.info', 'Project', order=0)
-    @route('/<int:id>/edit/info', methods=['GET','POST'])
+    @route('/<int:id>/edit/info', methods=['GET', 'POST'])
     def edit(self, id):
         project = DBProject.query.get_or_404(id)
         developers_only(project)
@@ -62,7 +62,7 @@ class Project(FlaskView):
 
     @login_required
     @classy_menu_item('frontend.project.admin.images', 'Images', order=2)
-    @route('/<int:id>/edit/images', methods=['GET','POST'])
+    @route('/<int:id>/edit/images', methods=['GET', 'POST'])
     def edit_images(self, id):
         project = DBProject.query.get_or_404(id)
         developers_only(project)
@@ -89,12 +89,15 @@ class Project(FlaskView):
 
             db.session.commit()
 
-        return render_template('.project/edit/images.html', project=project, 
-            edit_images_form=edit_images_form, upload_images_form=upload_images_form)
+        return render_template(
+            '.project/edit/images.html', 
+            project=project, 
+            edit_images_form=edit_images_form, 
+            upload_images_form=upload_images_form)
 
     @login_required
     @classy_menu_item('frontend.project.admin.contributors', 'Contributors', order=3)
-    @route('/<int:id>/edit/contributors', methods=['GET','POST'])
+    @route('/<int:id>/edit/contributors', methods=['GET', 'POST'])
     def edit_contributors(self, id):
         project = DBProject.query.get_or_404(id)
         developers_only(project)
@@ -121,7 +124,9 @@ class Project(FlaskView):
 
             db.session.commit()
 
-        elif project.can_edit_devs() and remove_form.submit.data and remove_form.validate_on_submit():
+        elif project.can_edit_devs() and remove_form.submit.data and \
+                remove_form.validate_on_submit():
+
             user = User.query.get(remove_form.zid.data)
             if user is None:
                 abort(400)
@@ -134,9 +139,11 @@ class Project(FlaskView):
 
             db.session.commit()
 
-
-        return render_template('.project/edit/contributors.html', project=project,
-            add_form=add_form, remove_form=remove_form)
+        return render_template(
+            '.project/edit/contributors.html', 
+            project=project,
+            add_form=add_form, 
+            remove_form=remove_form)
 
 
 

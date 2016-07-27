@@ -1,0 +1,26 @@
+sudo: required
+language: python
+
+services:
+  - docker
+
+before_install:
+  - pip install flake8 flake8-putty
+
+script:
+  - flake8
+
+after_success:
+  # Pull the image first, to save build time
+  - docker pull csesoc/showcse
+  # Actually do the build.
+  - docker build -t csesoc/showcse:$(git describe --dirty --always) .
+  # Push this sha
+  - docker push csesoc/showcse:$(git describe --dirty --always)
+
+  # If we're on master, let's push :latest.
+  - if [ "$TRAVIS_BRANCH" == "master" ]; then
+    docker tag docker tag csesoc/showcse:$(git describe --dirty --always) csesoc/showcse:latest;
+    docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+    docker push csesoc/showcse:latest;
+    fi

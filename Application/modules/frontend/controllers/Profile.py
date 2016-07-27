@@ -38,7 +38,9 @@ class Profile(FlaskView):
         following = False
         if current_user.is_authenticated:
             following = current_user.following.filter_by(zid=current_user.zid).count() != 0
-        return render_template('.profile/index.html', user=user, following=following, projects=projects)
+        return render_template(
+            '.profile/index.html', 
+            user=user, following=following, projects=projects)
 
     @route('/<string:user_id>/')
     def user(self, user_id):
@@ -49,7 +51,11 @@ class Profile(FlaskView):
         following = False
         if current_user.is_authenticated:
             following = current_user.following.filter_by(zid=user_id).count() != 0
-        return render_template('.profile/index.html', user=user, following=following, projects=projects)
+        return render_template(
+            '.profile/index.html', 
+            user=user, 
+            following=following, 
+            projects=projects)
 
     @login_required
     @route('/edit/', methods=['GET', 'POST'])
@@ -57,7 +63,7 @@ class Profile(FlaskView):
         form = UserEditForm(obj=current_user)
 
         if form.submit.data and form.validate_on_submit:
-            #update the user's details
+            # update the user's details
             current_user.website = form.website.data
             current_user.github_username = form.github_username.data
             current_user.email = form.email.data
@@ -69,8 +75,9 @@ class Profile(FlaskView):
             flash('Sucessfully updated your details!', 'success')
             return redirect(url_for('.Profile:me'))
 
-        return render_template(".profile/edit_user.html", is_form=True,
-            form=form, user=current_user)
+        return render_template(
+            ".profile/edit_user.html", 
+            is_form=True, form=form, user=current_user)
 
     @login_required
     @route('/follow/<string:user_id>/')
@@ -86,7 +93,7 @@ class Profile(FlaskView):
             flash("Error: you already follow this user", 'danger')
             return redirect(url_for('.Profile:user', user_id=user_id))
 
-        #Add follower relationship here
+        # Add follower relationship here
         followee = User.query.get_or_404(user_id)
         current_user.following.append(followee)
         db.session.add(current_user)
@@ -106,14 +113,13 @@ class Profile(FlaskView):
             return redirect(url_for('.Profile:user', user_id=user_id))
 
         if following:
-            #Remove relationship here
+            # Remove relationship here
             followee = User.query.get_or_404(user_id)
             current_user.following.remove(followee)
             db.session.add(current_user)
             db.session.commit()
             flash("User unfollowed successfully", 'success')
             return redirect(url_for('.Profile:user', user_id=user_id))
-
 
         flash("Error: you don't follow this user", 'danger')
         return redirect(url_for('.Profile:user', user_id=user_id))
